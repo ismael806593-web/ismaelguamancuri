@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plan Analítico - Tecnologías de la Información y Comunicación (TIC)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+              display: ['Poppins', 'system-ui', 'sans-serif'],
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+      html { scroll-behavior: smooth; }
+      body { font-family: 'Inter', system-ui, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; }
+      ::selection { background-color: #3b82f6; color: white; }
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f5f9; }
+      ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+      .topic-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+      .topic-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); }
+      .image-hover { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+      .image-hover:hover { transform: scale(1.05); }
+      .btn-youtube { transition: all 0.3s ease; }
+      .btn-youtube:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); }
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      // ==================== DATOS COMPLETOS CON IMÁGENES CORREGIDAS ====================
+      const units = [
+        {
+          id: "unit1", number: 1,
+          title: "Comunicación, Expresión y Redacción",
+          description: "Fundamentos epistemológicos del lenguaje, expresión escrita avanzada y técnicas de redacción y análisis sintáctico académico.",
+          color: "#2563eb", icon: "💬",
+          themes: [
+            {
+              id: "unit1-theme1",
+              title: "Temática 1: Comunicación, expresión, lenguaje, roles. Morfosintaxis, puntuación.",
+              topics: [
+                { 
+                  id: "u1-comunicacion", 
+                  title: "Comunicación, Expresión y Lenguaje", 
+                  definition: "La comunicación representa el pilar fundamental de la interacción social humana, configurándose como un proceso dinámico y bidireccional mediante el cual emisores y receptores intercambian datos, ideas, opiniones y afectos empleando un código estructurado y un canal físico o digital determinado. Paralelamente, la expresión actúa como el mecanismo mediante el cual manifestamos hacia el entorno nuestra vida interior, sentimientos profundos y razonamientos sin requerir de manera obligatoria una contraparte directa. Por su parte, el lenguaje se consolida como la facultad superior y el sistema organizado de signos convencionales que nos otorga la capacidad de conceptualizar la realidad, estructurar el pensamiento abstracto y posibilitar la convivencia armónica dentro de cualquier colectividad organizada.", 
+                  imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=UJxSAq54HkA", 
+                  externalUrl: "https://concepto.de/comunicacion/" 
+                },
+                { 
+                  id: "u1-funciones", 
+                  title: "Funciones del Lenguaje", 
+                  definition: "Las funciones del lenguaje corresponden a los distintos propósitos comunicativos con los que empleamos los signos lingüísticos en los diversos contextos discursivos. Entre las más destacadas se encuentra la función referencial o informativa, orientada a transmitir datos objetivos sobre el mundo real; la función emotiva o expresiva, centrada en reflejar el estado anímico y subjetivo del emisor; la función apelativa o conativa, cuyo propósito primordial es influir en la conducta del receptor o provocar en él una reacción específica; la función metalingüística, utilizada cuando el código sirve para explicarse a sí mismo; la fática, destinada a comprobar y mantener abierto el canal de comunicación; y la poética, enfocada en la búsqueda de la belleza estética y el juego retórico de las palabras.", 
+                  imageUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=a2EnTf5NISo", 
+                  externalUrl: "https://www.significados.com/funciones-del-lenguaje/" 
+                },
+                { 
+                  id: "u1-lenguaje-verbal", 
+                  title: "El Lenguaje Verbal", 
+                  definition: "El lenguaje verbal constituye el sistema de comunicación más complejo y desarrollado de la especie humana, manifestándose primordialmente a través de dos vertientes esenciales. La modalidad oral se caracteriza por ser inmediata, espontánea, efímera y enriquecida por la entonación y los recursos paralingüísticos en situaciones cara a cara. En contraste, la modalidad escrita requiere de un proceso de planificación riguroso, un dominio estricto de las normas gramaticales, ortográficas y sintácticas, permitiendo que el mensaje trascienda las barreras del tiempo y del espacio para perdurar como un registro histórico, científico y cultural de gran valor académico.", 
+                  imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=i4EMg9uOCY0", 
+                  externalUrl: "https://concepto.de/lenguaje/" 
+                },
+                { 
+                  id: "u1-roles", 
+                  title: "Roles del Lenguaje", 
+                  definition: "Los roles del lenguaje abarcan las múltiples funciones sociales, cognitivas e institucionales que ejerce la palabra hablada y escrita dentro de la dinámica de los grupos humanos y las organizaciones. El discurso no se limita a ser un mero vehículo de transmisión de datos fríos, sino que actúa como un catalizador de cohesión comunitaria, un instrumento regulador de la conducta colectiva y un factor determinante en la construcción de liderazgos, la resolución pacífica de conflictos y el fortalecimiento de la cultura institucional en el ámbito profesional.", 
+                  imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=s5j_bbv_o3o", 
+                  externalUrl: "https://concepto.de/lenguaje/" 
+                }
+              ]
+            },
+            {
+              id: "unit1-theme2",
+              title: "Temática 2: Redacción y ensayo.",
+              topics: [
+                { 
+                  id: "u1-resumen", 
+                  title: "El Resumen", 
+                  definition: "El resumen es una técnica de síntesis documental que consiste en examinar minuciosamente un texto extenso o una obra bibliográfica para extraer de forma clara y concisa las ideas principales, los argumentos medulares y las conclusiones expuestas por el autor. Su propósito fundamental es ofrecer una visión de conjunto reducida y fiel al documento original, omitiendo detalles secundarios, ejemplos excesivos o digresiones accesorias, facilitando así la asimilación rápida de la información en procesos de investigación.", 
+                  imageUrl: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=HxTWgyZGkpQ", 
+                  externalUrl: "https://universidadesdemexico.mx/noticias/que-es-un-resumen" 
+                },
+                { 
+                  id: "u1-sintesis", 
+                  title: "La Síntesis", 
+                  definition: "La síntesis constituye un procedimiento analítico avanzado superior al resumen tradicional, ya que implica la integración, cruce y reorganización de información proveniente de múltiples fuentes bibliográficas bajo un enfoque personal, crítico y metódico. Mediante este ejercicio intelectual, el investigador es capaz de contrastar diversas posturas teóricas sobre un mismo fenómeno, unificando conceptos dispersos para construir un texto inédito, coherente y sólidamente fundamentado que refleje una comprensión global del problema de estudio.", 
+                  imageUrl: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=uMiJ5xlkkYw", 
+                  externalUrl: "https://concepto.de/sintesis/" 
+                },
+                { 
+                  id: "u1-parfrasis", 
+                  title: "La Paráfrasis", 
+                  definition: "La paráfrasis se define como la habilidad de reescribir un texto o un fragmento ajeno empleando un estilo léxico y una redacción totalmente propios, pero resguardando escrupulosamente el sentido original y la intención del autor primigenio. En el ámbito universitario y científico, la paráfrasis es una herramienta metodológica indispensable para integrar literatura especializada en los informes de investigación, permitiendo respaldar los argumentos propios sin incurrir en faltas de plagio intelectual.", 
+                  imageUrl: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=mWxAtHZ370M", 
+                  externalUrl: "https://concepto.de/parafrasis/" 
+                },
+                { 
+                  id: "u1-argumento", 
+                  title: "El Argumento", 
+                  definition: "El argumento es un razonamiento lógico y estructurado compuesto por un conjunto de premisas que conducen inexorablemente a una conclusión, diseñado con el propósito de defender una tesis, persuadir al auditorio o validar la veracidad de una afirmación. Para que un argumento posea validez dentro de la producción científica, debe sustentarse en evidencias empíricas contrastables, rigor lógico formal y evitar falacias o contradicciones internas que debiliten la postura expuesta.", 
+                  imageUrl: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=geBiUY2ix9I", 
+                  externalUrl: "https://concepto.de/argumento/" 
+                },
+                { 
+                  id: "u1-descripcion", 
+                  title: "La Descripción", 
+                  definition: "La descripción es el discurso de carácter explicativo mediante el cual se detallan de forma ordenada y minuciosa las cualidades, atributos, partes o funciones que caracterizan a un objeto, un fenómeno natural, una persona, un escenario o un proceso metodológico. Su función principal en los textos académicos es otorgar precisión visual y conceptual al lector, permitiendo comprender con exactitud las condiciones contextuales en las que se desarrolla el objeto de análisis.", 
+                  imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=jB862dE_6oM", 
+                  externalUrl: "https://concepto.de/descripcion/" 
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: "unit2", number: 2,
+          title: "Comunicación No Verbal y Paralingüística",
+          description: "Estudio científico de la cinesca, proxémica, habilidades cinésicas y modulación paralingüística en exposiciones académicas.",
+          color: "#7c3aed", icon: "🗣️",
+          themes: [
+            {
+              id: "unit2-theme1",
+              title: "Temática 1: Habilidades de la comunicación no verbal.",
+              topics: [
+                { 
+                  id: "u2-contacto-visual", 
+                  title: "El Contacto Visual", 
+                  definition: "El contacto visual es uno de los componentes cinésicos más influyentes en la interacción humana y en la oratoria académica, refiriéndose a la dirección y mantenimiento de la mirada hacia el auditorio. Establecer un adecuado puente visual permite captar y retener el interés de los oyentes, proyectar seguridad personal, denotar honestidad intelectual y propiciar una retroalimentación constante que mide el nivel de receptividad y comprensión del público durante una exposición formal.", 
+                  imageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=AExIhr6hkok", 
+                  externalUrl: "https://www.analisisnoverbal.com/contacto-visual-y-comunicacion-no-verbal/" 
+                },
+                { 
+                  id: "u2-posturas", 
+                  title: "Posturas y Movimientos", 
+                  definition: "Las posturas y los desplazamientos corporales reflejan de manera inconsciente el estado emocional, el grado de confianza y la actitud de un orador frente a su audiencia. Mantener una postura corporal abierta, erguida y natural, acompañada de desplazamientos pausados y deliberados por el escenario, refuerza la autoridad discursiva, evita la monotonía visual y demuestra un dominio absoluto del espacio escénico y del contenido expuesto.", 
+                  imageUrl: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=1D6rw5qqhWo", 
+                  externalUrl: "https://www.analisisnoverbal.com/lenguaje-corporal-y-comunicacion-no-verbal/" 
+                },
+                { 
+                  id: "u2-gestos", 
+                  title: "Gesto y Expresión Facial", 
+                  definition: "Los gestos de las manos y la expresividad de la musculatura facial actúan como el complemento sinérgico idóneo del mensaje verbal, facilitando la decodificación de conceptos abstractos y enfatizando los puntos clave de una disertación. Aunque ciertos códigos gestuales se encuentran condicionados por factores culturales, su uso armónico y controlado potencia notablemente la expresividad empática y la credibilidad del emisor ante los receptores.", 
+                  imageUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=uWQjJUfep9s", 
+                  externalUrl: "https://es.wikipedia.org/wiki/Gesto" 
+                }
+              ]
+            },
+            {
+              id: "unit2-theme2",
+              title: "Temática 2: Paralingüística.",
+              topics: [
+                { 
+                  id: "u2-paralinguistica", 
+                  title: "Paralingüística", 
+                  definition: "La paralingüística es la disciplina científica que analiza los aspectos sonoros no verbales asociados al discurso hablado, tales como las cualidades físicas de la voz, las inflexiones tonales, el ritmo y las pausas. Estos elementos vocales paralelos poseen la capacidad de modificar sustancialmente el significado literal de las palabras pronunciadas, aportando matices de ironía, énfasis, seguridad, urgencia o afectividad en la transmisión del mensaje.", 
+                  imageUrl: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=UpSX4R5zbO8", 
+                  externalUrl: "https://www.cun.es/diccionario-medico/terminos/comunicacion-paralinguistica" 
+                },
+                { 
+                  id: "u2-funciones-voz", 
+                  title: "Funciones de la Voz", 
+                  definition: "Las funciones de la voz en la expresión oral comprenden su rol estratégico como instrumento regulador de la atención colectiva, modulador de estados de ánimo y soporte fisiológico de la resistencia fonética. Un manejo adecuado de la voz permite destacar los argumentos principales frente a los secundarios, mantener el dinamismo de la exposición y evitar la fatiga auditiva en los oyentes durante intervenciones prolongadas.", 
+                  imageUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=eqQWPcU4uaU", 
+                  externalUrl: "https://www.cun.es/diccionario-medico/terminos/comunicacion-paralinguistica" 
+                },
+                { 
+                  id: "u2-caracteristicas-voz", 
+                  title: "Características de la Voz", 
+                  definition: "Las propiedades acústicas de la voz se dividen en cuatro parámetros fundamentales: el tono (frecuencia grave o aguda), el timbre (sello sonoro distintivo de cada persona), la intensidad (amplitud o volumen de proyección sonora) y la duración (tiempo de emisión de los fonemas). Su conocimiento técnico y control consciente son vitales para lograr una óptima inteligibilidad y persuasión en discursos públicos.", 
+                  imageUrl: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=on7vU6Lom98", 
+                  externalUrl: "https://www.significados.com/voz-activa-y-pasiva/" 
+                },
+                { 
+                  id: "u2-articulacion", 
+                  title: "Articulación de la Voz", 
+                  definition: "La articulación es el proceso fisiológico y mecánico mediante el cual los órganos articulatorios de la cavidad bucal (labios, lengua, dientes, paladar y mandíbula) modifican el flujo de aire proveniente de los pulmones para transformarlo en sonidos articulados y claros. Una articulación precisa y limpia garantiza que cada término sea perfectamente decodificado por la audiencia, eliminando ambigüedades en la comunicación.", 
+                  imageUrl: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=b92hoYRMK8k", 
+                  externalUrl: "https://concepto.de/fonetica/" 
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: "unit3", number: 3,
+          title: "Búsqueda de Información y Bases de Datos",
+          description: "Metodología de recuperación bibliográfica avanzada, operadores booleanos e indexación en Scopus, SciELO y Latindex.",
+          color: "#059669", icon: "🔍",
+          themes: [
+            {
+              id: "unit3-theme1",
+              title: "Temática 1: Etapas del proceso de búsqueda.",
+              topics: [
+                { 
+                  id: "u3-nivel-cobertura", 
+                  title: "Nivel y Cobertura de la Búsqueda", 
+                  definition: "El nivel y la cobertura de búsqueda configuran el alcance estratégico, la delimitación temática, geográfica y temporal requerida para realizar una revisión bibliográfica exhaustiva y rigurosa. Establecer estos parámetros previos evita la dispersión de resultados, permitiendo enfocar los esfuerzos de recuperación en literatura científica altamente especializada y pertinente para el rigor metodológico del proyecto de investigación.", 
+                  imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=W8GPIYQb7OA", 
+                  externalUrl: "https://www.clickrank.ai/es/seo-glossary/q/what-is-query-space-coverage/" 
+                },
+                { 
+                  id: "u3-fuentes", 
+                  title: "Fuentes de Información", 
+                  definition: "Las fuentes de información se clasifican jerárquicamente en primarias, secundarias y terciarias según el grado de originalidad y procesamiento de los datos. Las primarias contienen información directa e inédita de investigaciones; las secundarias agrupan compilaciones, resúmenes y listados bibliográficos de referencias; y las terciarias orientan hacia documentos o repertorios especializados de consulta general.", 
+                  imageUrl: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=WRCfpVR6IJU", 
+                  externalUrl: "https://concepto.de/fuentes-de-informacion/" 
+                },
+                { 
+                  id: "u3-estrategia", 
+                  title: "Estrategia de Búsqueda", 
+                  definition: "La estrategia de búsqueda consiste en la estructuración sistemática de ecuaciones formadas por palabras clave, términos tesauros y operadores booleanos (AND, OR, NOT) diseñados para interactuar con los motores de recuperación de las bases de datos científicas. Su correcta formulación garantiza la máxima precisión y exhaustividad en la localización de artículos arbitrados y literatura de impacto.", 
+                  imageUrl: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=I4IjOkT2GZ8", 
+                  externalUrl: "https://www.salusplay.com/apuntes/apuntes-metodologia-de-la-investigacion/tema-8-la-estrategia-de-busqueda" 
+                }
+              ]
+            },
+            {
+              id: "unit3-theme2",
+              title: "Temática 2: Bases de datos.",
+              topics: [
+                { 
+                  id: "u3-google-academico", 
+                  title: "Google Académico", 
+                  definition: "Google Académico es un motor de búsqueda especializado en la recuperación de literatura científico-académica de acceso libre y global, indexando tesis, libros, resúmenes y artículos arbitrados de diversas disciplinas del conocimiento. Facilita el seguimiento de citas bibliográficas y la evaluación del factor de impacto preliminar de los autores consultados.", 
+                  imageUrl: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=I4IjOkT2GZ8", 
+                  externalUrl: "https://es.wikipedia.org/wiki/Google_Acad%C3%A9mico" 
+                },
+                { 
+                  id: "u3-latindex", 
+                  title: "Latindex", 
+                  definition: "Latindex es un sistema regional de información en línea que integra y evalúa revistas científicas de investigación, profesionales y de divulgación cultural editadas en los países de América Latina, el Caribe, España y Portugal. Ofrece directorios y catálogos que garantizan la visibilidad y calidad editorial de las publicaciones de la región iberoamericana.", 
+                  imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=ErUnP5l813s", 
+                  externalUrl: "https://es.wikipedia.org/wiki/Latindex" 
+                },
+                { 
+                  id: "u3-scielo", 
+                  title: "SciELO", 
+                  definition: "SciELO (Scientific Electronic Library Online) es una biblioteca electrónica de acceso abierto que opera como un modelo cooperativo de publicación de revistas científicas en internet. Desarrollada especialmente para responder a las necesidades de comunicación científica de los países en desarrollo, asegura la indexación y visibilidad de la investigación en salud, ciencias sociales y humanidades.", 
+                  imageUrl: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=WRCfpVR6IJU", 
+                  externalUrl: "https://es.wikipedia.org/wiki/SciELO" 
+                },
+                { 
+                  id: "u3-scopus", 
+                  title: "Scopus", 
+                  definition: "Scopus es la mayor base de datos bibliográfica de resúmenes y citas de literatura peer-reviewed a nivel mundial, administrada por la editorial Elsevier. Incorpora herramientas sofisticadas de análisis bibliométrico, seguimiento de tendencias científicas y cálculo de métricas de impacto como el índice h para investigadores y revistas de alta gama.", 
+                  imageUrl: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=ErUnP5l813s", 
+                  externalUrl: "https://es.wikipedia.org/wiki/Scopus" 
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: "unit4", number: 4,
+          title: "Herramientas Digitales y IA para Documentos",
+          description: "Manejo avanzado de ofimática, hojas de cálculo, presentaciones multimedia e integración de Inteligencia Artificial Generativa.",
+          color: "#dc2626", icon: "💻",
+          themes: [
+            {
+              id: "unit4-theme1",
+              title: "Temática 1: Procesador de textos. Hoja de cálculo.",
+              topics: [
+                { 
+                  id: "u4-procesadores", 
+                  title: "Procesadores de Texto", 
+                  definition: "Los procesadores de texto son aplicaciones ofimáticas avanzadas concebidas para la creación, edición, formato y estructuración de documentos formales e informes de investigación bajo normativas internacionales como APA o Vancouver. Permiten la automatización de índices, tablas de contenido, referencias bibliográficas y revisión ortográfica colaborativa.", 
+                  imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=cR6mwPVJrtg", 
+                  externalUrl: "https://es.wikipedia.org/wiki/Procesador_de_textos" 
+                }
+              ]
+            },
+            {
+              id: "unit4-theme2",
+              title: "Temática 2: Herramientas de IA generativa.",
+              topics: [
+                { 
+                  id: "u4-usos-presentaciones", 
+                  title: "Usos de las Presentaciones", 
+                  definition: "Las presentaciones multimedia se emplean como recursos de apoyo visual estructurado para sintetizar información clave, retener la atención del auditorio y guiar el hilo conductor de una exposición oral profesional, evitando la saturación de texto plano en las diapositivas.", 
+                  imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=cNU5NEcrzsw", 
+                  externalUrl: "https://concepto.de/diapositiva/" 
+                },
+                { 
+                  id: "u4-powerpoint-prezi-canva", 
+                  title: "PowerPoint, Prezi y Canva", 
+                  definition: "PowerPoint, Prezi y Canva representan plataformas de diseño y presentación líderes en el entorno digital, ofreciendo plantillas dinámicas, transiciones espaciales y recursos gráficos de alto impacto visual para comunicar proyectos corporativos y académicos con máxima eficiencia.", 
+                  imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=xXvL5RwU1sw", 
+                  externalUrl: "https://prezi.com/p/xbqhdlsrr_ws/herramientas-de-presentacion-prezi-canva-powtoon-y-genially/" 
+                },
+                { 
+                  id: "u4-colaborativo", 
+                  title: "Trabajo Colaborativo", 
+                  definition: "El trabajo colaborativo mediado por tecnologías en la nube posibilita la coedición síncrona y asíncrona de documentos, hojas de cálculo y presentaciones entre múltiples usuarios distribuidos geográficamente, optimizando los flujos de trabajo en equipos académicos y empresariales.", 
+                  imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=Tnj4HpI6LqU", 
+                  externalUrl: "https://es.wikipedia.org/wiki/Trabajo_colaborativo" 
+                },
+                { 
+                  id: "u4-copilot", 
+                  title: "Microsoft Copilot", 
+                  definition: "Microsoft Copilot es un asistente inteligente basado en Inteligencia Artificial Generativa e integrado en el ecosistema digital, diseñado para potenciar la productividad mediante la generación automatizada de textos, síntesis de datos, asistencia en investigación y redacción documental avanzada.", 
+                  imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80", 
+                  youtubeUrl: "http://www.youtube.com/watch?v=S5wffL3L2K8", 
+                  externalUrl: "https://es.wikipedia.org/wiki/Inteligencia_artificial_generativa" 
+                }
+              ]
+            }
+          ]
+        }
+      ];
+
+      // ==================== COMPONENTES DE LA APP ====================
+      function Header({ activeUnit, setActiveUnit }) {
+        return (
+          <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+              <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveUnit(null)}>
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-blue-500/20">
+                  📊
+                </div>
+                <div>
+                  <span className="text-xs font-semibold tracking-wider uppercase text-blue-600">Tecnologías de la Información y Comunicación - TIC</span>
+                  <h1 className="text-lg sm:text-xl font-bold font-display text-slate-900 leading-tight">Plan Analítico</h1>
+                </div>
+              </div>
+
+              <nav className="hidden md:flex items-center space-x-2">
+                <button 
+                  onClick={() => setActiveUnit(null)}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${activeUnit === null ? 'bg-blue-50 text-blue-600 font-semibold shadow-sm' : 'text-slate-600 hover:bg-slate-100'}`}
+                >
+                  Inicio / Plan Analítico
+                </button>
+                {units.map((u) => (
+                  <button
+                    key={u.id}
+                    onClick={() => setActiveUnit(u.id)}
+                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${activeUnit === u.id ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20' : 'text-slate-600 hover:bg-slate-100'}`}
+                  >
+                    Unidad {u.number}
+                  </button>
+                ))}
+              </nav>
+            </div>
+          </header>
+        );
+      }
+
+      function UnitCard({ unit, onSelect }) {
+        return (
+          <div 
+            onClick={onSelect}
+            className="topic-card bg-white rounded-3xl p-8 border border-slate-200 cursor-pointer flex flex-col justify-between relative overflow-hidden group"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-indigo-500/0 rounded-bl-full transition-transform duration-500 group-hover:scale-110" />
+            
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <span className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-3xl shadow-inner">
+                  {unit.icon}
+                </span>
+                <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-100">
+                  Unidad {unit.number}
+                </span>
+              </div>
+              
+              <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
+                {unit.title}
+              </h3>
+              
+              <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                {unit.description}
+              </p>
+            </div>
+
+            <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                {unit.themes.reduce((acc, t) => acc + t.topics.length, 0)} Temas en el plan analítico
+              </span>
+              <span className="inline-flex items-center text-sm font-semibold text-blue-600 group-hover:translate-x-1 transition-transform">
+                Explorar unidad &rarr;
+              </span>
+            </div>
+          </div>
+        );
+      }
+
+      function TopicItem({ topic }) {
+        return (
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+            <div className="relative h-48 overflow-hidden bg-slate-100">
+              <img 
+                src={topic.imageUrl} 
+                alt={topic.title} 
+                className="w-full h-full object-cover image-hover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-4">
+                <h4 className="text-white font-bold font-display text-lg leading-snug drop-shadow-sm">
+                  {topic.title}
+                </h4>
+              </div>
+            </div>
+
+            <div className="p-6 flex-1 flex flex-col justify-between">
+              <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                {topic.definition}
+              </p>
+
+              <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
+                <a 
+                  href={topic.youtubeUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="btn-youtube flex-1 bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                  Ver Video
+                </a>
+
+                <a 
+                  href={topic.externalUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors flex items-center justify-center"
+                >
+                  Referencia ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      function App() {
+        const [activeUnit, setActiveUnit] = useState(null);
+
+        useEffect(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, [activeUnit]);
+
+        const selectedUnitData = units.find(u => u.id === activeUnit);
+
+        return (
+          <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+            <Header activeUnit={activeUnit} setActiveUnit={setActiveUnit}/>
+
+            <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+              {activeUnit === null ? (
+                <div className="animate-fade-in space-y-12">
+                  <div className="text-center max-w-3xl mx-auto py-8">
+                    <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-100 uppercase tracking-wider">
+                      Tecnologías de la Información y Comunicación - TIC
+                    </span>
+                    <h2 className="text-3xl sm:text-5xl font-extrabold font-display text-slate-900 mt-4 mb-6">
+                      Plan Analítico de la Materia
+                    </h2>
+                    <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+                      Consulta los contenidos programáticos, descripciones académicas ampliadas y recursos bibliográficos interactivos para tu formación profesional.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {units.map((unit) => (
+                      <UnitCard key={unit.id} unit={unit} onSelect={() => setActiveUnit(unit.id)} />
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="animate-fade-in space-y-12">
+                  <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-bl-full pointer-events-none" />
+                    
+                    <button 
+                      onClick={() => setActiveUnit(null)}
+                      className="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700 mb-6 transition-colors"
+                    >
+                      &larr; Volver al plan analítico principal
+                    </button>
+
+                    <div className="flex items-center gap-4 mb-4">
+                      <span className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl shadow-inner">
+                        {selectedUnitData.icon}
+                      </span>
+                      <span className="px-3.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-100">
+                        Unidad {selectedUnitData.number}
+                      </span>
+                    </div>
+
+                    <h2 className="text-2xl sm:text-4xl font-extrabold font-display text-slate-900 mb-4">
+                      {selectedUnitData.title}
+                    </h2>
+                    <p className="text-base sm:text-lg text-slate-600 max-w-3xl leading-relaxed">
+                      {selectedUnitData.description}
+                    </p>
+                  </div>
+
+                  <div className="space-y-16">
+                    {selectedUnitData.themes.map((theme) => (
+                      <div key={theme.id} className="space-y-6">
+                        <div className="border-b border-slate-200 pb-4">
+                          <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-900">
+                            {theme.title}
+                          </h3>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {theme.topics.map((topic) => (
+                            <TopicItem key={topic.id} topic={topic} />
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </main>
+
+            <footer className="bg-white border-t border-slate-200 mt-20 py-8">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-slate-500">
+                <p>&copy; 2026 Tecnologías de la Información y Comunicación (TIC) - Plan Analítico. Todos los derechos reservados.</p>
+              </div>
+            </footer>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

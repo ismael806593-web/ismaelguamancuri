@@ -1,0 +1,1918 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plan Analítico - Tecnologías de la Información y Comunicación (TIC)</title>
+    <!-- Fuentes de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+              display: ['Poppins', 'system-ui', 'sans-serif'],
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+      html { scroll-behavior: smooth; }
+      body { font-family: 'Inter', system-ui, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; }
+      ::selection { background-color: #2563eb; color: white; }
+      ::-webkit-scrollbar { width: 8px; height: 8px; }
+      ::-webkit-scrollbar-track { background: #f1f5f9; }
+      ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+      
+      .topic-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+      .topic-card:hover { transform: translateY(-4px); box-shadow: 0 20px 35px -10px rgba(15, 23, 42, 0.12); }
+      
+      .image-hover { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+      .topic-card:hover .image-hover { transform: scale(1.06); }
+      
+      .btn-youtube { transition: all 0.25s ease; }
+      .btn-youtube:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(220, 38, 38, 0.35); }
+      
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+      .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+      
+      @keyframes modalIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+      .animate-modal { animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- React 18 & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const { useState, useEffect, useMemo } = React;
+
+      // ==================== BASE DE DATOS CURRICULAR EXPANDIDA (47 TEMAS INDIVIDUALES) ====================
+      const units = [
+        {
+          id: "unit1",
+          number: 1,
+          title: "Comunicación, Expresión y Redacción",
+          description: "Fundamentos epistemológicos de la comunicación, expresión, lenguaje, roles comunicativos, morfosintaxis, puntuación y producción de textos académicos y ensayos.",
+          badgeClass: "bg-blue-50 text-blue-700 border-blue-200",
+          accentBg: "bg-blue-600",
+          accentHover: "hover:bg-blue-700",
+          accentText: "text-blue-600",
+          progressFill: "bg-blue-600",
+          icon: "💬",
+          themes: [
+            {
+              id: "unit1-theme1",
+              title: "Temática 1: Comunicación, expresión, lenguaje, roles. Morfosintaxis, puntuación.",
+              subtitle: "Bases lingüísticas, diferenciación conceptual y normativa gramatical para la precisión discursiva.",
+              topics: [
+                {
+                  id: "u1-comunicacion",
+                  title: "Comunicación",
+                  keywords: ["Emisor", "Receptor", "Código", "Canal", "Retroalimentación"],
+                  definition: "La comunicación es el proceso social, dinámico, intencional y bidireccional mediante el cual dos o más interlocutores intercambian información, significados, ideas y experiencias utilizando un código compartido a través de un canal físico o digital. Su esencia radica en la reciprocidad y en la existencia de retroalimentación (feedback) que confirma la comprensión mutua del mensaje.",
+                  keyPoints: [
+                    "Elementos del circuito: Emisor, receptor, mensaje, código, canal, referente y contexto situacional.",
+                    "Bidireccionalidad: Exige interacción y respuesta activa entre los participantes del acto comunicativo.",
+                    "Barreras y ruido: Factores físicos, semánticos, fisiológicos o psicológicos que distorsionan el mensaje.",
+                    "Propósito social: Constituye el fundamento de la organización académica, científica y empresarial."
+                  ],
+                  practicalTip: "En entornos académicos y digitales, verifica siempre que el código (nivel técnico del vocabulario) sea adecuado para tu audiencia y solicita retroalimentación para confirmar que el mensaje fue comprendido.",
+                  imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=UJxSAq54HkA",
+                  externalUrl: "https://concepto.de/comunicacion/"
+                },
+                {
+                  id: "u1-expresion",
+                  title: "Expresión",
+                  keywords: ["Exteriorización", "Subjetividad", "Manifestación", "Unilateral"],
+                  definition: "La expresión constituye la acción y efecto de manifestar, exteriorizar o proyectar hacia el entorno pensamientos, estados anímicos, emociones o juicios internos mediante signos verbales, corporales o artísticos. A diferencia de la comunicación plena, la expresión puede ser unilateral y no exige necesariamente la presencia de un receptor que responda o decodifique el mensaje.",
+                  keyPoints: [
+                    "Naturaleza exteriorizadora: Traslada el mundo interior (ideas o afectos) hacia una forma perceptible.",
+                    "Carácter no necesariamente recíproco: Puede ocurrir en soliloquios, diarios personales o creación estética.",
+                    "Diversidad de medios: Se manifiesta a través de la palabra, el gesto, la música, la pintura o la escritura.",
+                    "Complemento comunicativo: Toda comunicación incluye expresión, pero no toda expresión logra comunicación."
+                  ],
+                  practicalTip: "En la redacción académica, transforma la simple expresión subjetiva de opiniones en afirmaciones sustentadas con argumentos y evidencia verificable.",
+                  imageUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=UJxSAq54HkA",
+                  externalUrl: "https://concepto.de/expresion/"
+                },
+                {
+                  id: "u1-lenguaje",
+                  title: "Lenguaje",
+                  keywords: ["Facultad humana", "Signos", "Simbolización", "Pensamiento"],
+                  definition: "El lenguaje es la facultad cognitiva superior y el sistema estructurado de signos convencionales (orales, escritos, gestuales o simbólicos) que permite al ser humano conceptualizar la realidad, abstraer ideas complejas y construir conocimiento. Opera simultáneamente como instrumento de estructuración del pensamiento individual y vehículo universal de transmisión cultural.",
+                  keyPoints: [
+                    "Capacidad innata y universal: Propia de la especie humana para crear y manipular sistemas simbólicos.",
+                    "Doble articulación: Combina unidades mínimas sin significado (fonemas) para formar unidades con significado (morfemas).",
+                    "Función cognitiva: Permite clasificar, razonar, planificar y proyectar escenarios hipotéticos.",
+                    "Multimodalidad: Abarca tanto el lenguaje verbal como los lenguajes no verbales, matemáticos e informáticos."
+                  ],
+                  practicalTip: "Amplía continuamente tu léxico disciplinar mediante la lectura de artículos científicos; a mayor riqueza de lenguaje, mayor precisión en tu capacidad de análisis.",
+                  imageUrl: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=i4EMg9uOCY0",
+                  externalUrl: "https://concepto.de/lenguaje/"
+                },
+                {
+                  id: "u1-funciones",
+                  title: "Funciones del Lenguaje",
+                  keywords: ["Jakobson", "Referencial", "Apelativa", "Metalingüística", "Fática"],
+                  definition: "Las funciones del lenguaje, sistematizadas por Roman Jakobson, corresponden a los distintos propósitos comunicativos con los que empleamos los signos lingüísticos según el elemento del circuito comunicativo en el que se ponga énfasis. En la redacción científica predomina la función referencial, mientras que en la exposición oral cobran protagonismo las funciones apelativa, fática y metalingüística.",
+                  keyPoints: [
+                    "Referencial o informativa: Transmite datos objetivos y verificables sobre la realidad (ej. artículos científicos).",
+                    "Emotiva o expresiva: Refleja la subjetividad, emociones y actitud del emisor.",
+                    "Apelativa o conativa: Busca influir, persuadir o provocar una acción en el receptor.",
+                    "Metalingüística, Fática y Poética: Aclaran el código, comprueban el canal o cuidan la estética del mensaje."
+                  ],
+                  practicalTip: "Al redactar informes técnicos o tesis, mantén un predominio claro de la función referencial en tercera persona o forma impersonal, evitando juicios emotivos.",
+                  imageUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=a2EnTf5NISo",
+                  externalUrl: "https://www.significados.com/funciones-del-lenguaje/"
+                },
+                {
+                  id: "u1-lenguaje-verbal",
+                  title: "El Lenguaje Verbal (Oral y Escrito)",
+                  keywords: ["Oralidad", "Escritura", "Planificación", "Inmediatez"],
+                  definition: "El lenguaje verbal constituye el sistema de comunicación articulado mediante palabras. Se manifiesta en dos modalidades complementarias: la modalidad oral, que es inmediata, espontánea, efímera y apoyada en recursos paralingüísticos; y la modalidad escrita, que exige planificación rigurosa, cohesión textual, dominio ortográfico y permanencia histórica a través del tiempo y el espacio.",
+                  keyPoints: [
+                    "Canal auditivo vs. visual: La oralidad utiliza ondas sonoras; la escritura emplea grafías normalizadas.",
+                    "Inmediatez vs. Diferido: La conversación permite corrección inmediata; el texto escrito requiere revisión previa.",
+                    "Contexto situacional: El texto escrito debe ser autónomo y explicitar su contexto para evitar ambigüedades.",
+                    "Registro y durabilidad: La escritura fija el conocimiento científico y jurídico de forma perdurable."
+                  ],
+                  practicalTip: "Nunca escribas exactamente como hablas: elimina muletillas, redundancias orales y oraciones inconclusas al pasar tus ideas al papel.",
+                  imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=i4EMg9uOCY0",
+                  externalUrl: "https://concepto.de/lenguaje/"
+                },
+                {
+                  id: "u1-lengua-habla-norma",
+                  title: "Lengua, Habla y Norma",
+                  keywords: ["Saussure", "Sistema", "Uso individual", "Registro culto"],
+                  definition: "Siguiendo los postulados de Ferdinand de Saussure y Eugenio Coseriu, la lengua es el sistema abstracto, social y compartido de signos lingüísticos (como el español); el habla es la realización concreta, individual y momentánea que cada hablante hace de ese sistema; y la norma constituye el conjunto de usos lingüísticos socialmente aceptados y prestigiosos dentro de una comunidad académica.",
+                  keyPoints: [
+                    "Lengua: Código social, psíquico y relativamente estable perteneciente a toda la comunidad.",
+                    "Habla: Acto psicofísico individual de voluntad e inteligencia al articular enunciados.",
+                    "Norma académica: Estándar de corrección gramatical y léxica exigido en contextos universitarios.",
+                    "Variación diafásica: Capacidad del hablante culto para adecuar su registro según el contexto."
+                  ],
+                  practicalTip: "Adapta tu registro lingüístico (formal, técnico o coloquial) según la situación comunicativa sin perder la claridad conceptual.",
+                  imageUrl: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=i4EMg9uOCY0",
+                  externalUrl: "https://concepto.de/lengua/"
+                },
+                {
+                  id: "u1-roles",
+                  title: "Roles del Lenguaje",
+                  keywords: ["Cohesión social", "Cognición", "Liderazgo", "Cultura institucional"],
+                  definition: "Los roles del lenguaje abarcan las múltiples funciones sociales, cognitivas e institucionales que ejerce la palabra hablada y escrita dentro de las organizaciones y comunidades. El discurso actúa como instrumento de construcción del pensamiento crítico, vehículo de transmisión cultural, catalizador de cohesión grupal y herramienta estratégica para el liderazgo y la negociación.",
+                  keyPoints: [
+                    "Rol cognitivo: Permite organizar, categorizar y abstraer el conocimiento científico.",
+                    "Rol social y cultural: Construye identidad colectiva y transmite saberes entre generaciones.",
+                    "Rol institucional y profesional: Estructura normativas, protocolos, informes y toma de decisiones.",
+                    "Rol mediador: Facilita la resolución pacífica de conflictos y la coordinación de equipos."
+                  ],
+                  practicalTip: "En trabajos colaborativos, utiliza un lenguaje asertivo e inclusivo que delimite responsabilidades y objetivos comunes.",
+                  imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=s5j_bbv_o3o",
+                  externalUrl: "https://concepto.de/lenguaje/"
+                },
+                {
+                  id: "u1-morfosintaxis",
+                  title: "Morfosintaxis",
+                  keywords: ["Morfología", "Sintaxis", "Concordancia", "Oración"],
+                  definition: "La morfosintaxis es la rama de la gramática que integra el estudio de la estructura interna de las palabras y sus variaciones flexivas (morfología) con las reglas de combinación y jerarquía que articulan palabras en sintagmas y oraciones coherentes (sintaxis). Dominar la morfosintaxis evita errores como el dequeísmo, la discordancia de género o número y las construcciones sintácticas ambiguas en la redacción académica.",
+                  keyPoints: [
+                    "Morfología léxica y flexiva: Analiza raíces, prefijos, sufijos y desinencias de género, número, tiempo y modo.",
+                    "Sintaxis oracional: Regula la función de sujeto, predicado, complementos directos, indirectos y circunstanciales.",
+                    "Concordancia normativa: Exige correspondencia gramatical entre sustantivo y adjetivo y entre núcleo del sujeto y verbo.",
+                    "Prevención de vicios: Corrige dequeísmo, queísmo, leísmo incorrecto y anfibologías en textos formales."
+                  ],
+                  practicalTip: "Lee en voz alta tus párrafos académicos verificando que cada sujeto concuerde en número con su verbo principal y que no existan pronombres con referente ambiguo.",
+                  imageUrl: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=HxTWgyZGkpQ",
+                  externalUrl: "https://www.rae.es/dpd/"
+                },
+                {
+                  id: "u1-puntuacion",
+                  title: "Puntuación",
+                  keywords: ["Coma", "Punto y coma", "Dos puntos", "Punto", "Cohesión"],
+                  definition: "La puntuación es el sistema ortográfico de signos (coma, punto y coma, dos puntos, punto seguido, punto y aparte, paréntesis y comillas) que organiza el discurso escrito, delimita unidades sintácticas, marca pausas lógicas y jerarquiza la información. Una puntuación precisa evita malentendidos semánticos y otorga ritmo, claridad y elegancia a los textos académicos y profesionales.",
+                  keyPoints: [
+                    "La coma (,): Delimita incisos explicativos, vocativos, conectores y elementos de enumeraciones simples.",
+                    "El punto y coma (;): Separa proposiciones yuxtapuestas relacionadas o elementos complejos con comas internas.",
+                    "Los dos puntos (:): Introducen enumeraciones anunciadas, citas textuales, ejemplos o consecuencias lógicas.",
+                    "El punto (.): Cierra oraciones con sentido completo (punto seguido), párrafos (punto y aparte) o textos (punto final)."
+                  ],
+                  practicalTip: "No uses la coma únicamente para 'tomar aire' al leer; aplica la coma según su función sintáctica y revisa cómo cambia el sentido de una frase al mover un signo.",
+                  imageUrl: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=HxTWgyZGkpQ",
+                  externalUrl: "https://www.rae.es/dpd/"
+                },
+                {
+                  id: "u1-roles",
+                  title: "Roles del Lenguaje",
+                  keywords: ["Cohesión social", "Cognición", "Liderazgo", "Cultura institucional"],
+                  definition: "Los roles del lenguaje abarcan las múltiples funciones sociales, cognitivas e institucionales que ejerce la palabra hablada y escrita dentro de las organizaciones y comunidades. El discurso actúa como instrumento de construcción del pensamiento crítico, vehículo de transmisión cultural, catalizador de cohesión grupal y herramienta estratégica para el liderazgo y la negociación.",
+                  keyPoints: [
+                    "Rol cognitivo: Permite organizar, categorizar y abstraer el conocimiento científico.",
+                    "Rol social y cultural: Construye identidad colectiva y transmite saberes entre generaciones.",
+                    "Rol institucional y profesional: Estructura normativas, protocolos, informes y toma de decisiones.",
+                    "Rol mediador: Facilita la resolución pacífica de conflictos y la coordinación de equipos."
+                  ],
+                  practicalTip: "En trabajos colaborativos, utiliza un lenguaje asertivo e inclusivo que delimite responsabilidades y objetivos comunes.",
+                  imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=s5j_bbv_o3o",
+                  externalUrl: "https://concepto.de/lenguaje/"
+                }
+              ]
+            },
+            {
+              id: "unit1-theme2",
+              title: "Temática 2: Redacción y ensayo.",
+              subtitle: "Técnicas de procesamiento de información documental y construcción de ensayos científicos.",
+              topics: [
+                {
+                  id: "u1-resumen",
+                  title: "El Resumen",
+                  keywords: ["Ideas principales", "Fidelidad textual", "Concisión", "Abstract"],
+                  definition: "El resumen es una técnica de síntesis documental que consiste en examinar minuciosamente un texto extenso o artículo científico para extraer de forma clara, objetiva y concisa las ideas principales, la metodología y las conclusiones expuestas por el autor. Su extensión suele oscilar entre el 15% y el 25% del texto original, omitiendo ejemplos secundarios o digresiones accesorias.",
+                  keyPoints: [
+                    "Objetividad absoluta: No incluye opiniones ni valoraciones personales de quien resume.",
+                    "Jerarquización: Distingue entre tesis central, ideas de soporte y datos ilustrativos prescindibles.",
+                    "Resumen científico (Abstract): Sintetiza objetivo, método, resultados y conclusión de una investigación.",
+                    "Autonomía textual: Debe comprenderse por sí solo sin necesidad de acudir al texto fuente."
+                  ],
+                  practicalTip: "Subraya las oraciones temáticas de cada párrafo y únelas con conectores lógicos sin alterar el sentido original del autor.",
+                  imageUrl: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=HxTWgyZGkpQ",
+                  externalUrl: "https://universidadesdemexico.mx/noticias/que-es-un-resumen"
+                },
+                {
+                  id: "u1-sintesis",
+                  title: "La Síntesis",
+                  keywords: ["Integración", "Multi-fuente", "Reorganización", "Análisis crítico"],
+                  definition: "La síntesis constituye un procedimiento intelectual superior al resumen tradicional, ya que implica el análisis, cruce e integración de información proveniente de diversas fuentes bibliográficas bajo un enfoque propio y metódico. Permite contrastar distintas posturas teóricas sobre un mismo fenómeno para construir un texto inédito, coherente y sólidamente fundamentado.",
+                  keyPoints: [
+                    "Carácter integrador: Combina aportes de dos o más autores en un nuevo esquema conceptual.",
+                    "Redacción propia: Emplea el vocabulario y estructura organizativa del investigador.",
+                    "Base del marco teórico: Es la técnica esencial para redactar el estado del arte de una investigación.",
+                    "Pensamiento relacional: Identifica coincidencias, divergencias y vacíos entre estudios previos."
+                  ],
+                  practicalTip: "Elabora una matriz de doble entrada comparando autores y variables antes de redactar tu párrafo de síntesis.",
+                  imageUrl: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=uMiJ5xlkkYw",
+                  externalUrl: "https://concepto.de/sintesis/"
+                },
+                {
+                  id: "u1-parafrasis",
+                  title: "La Paráfrasis",
+                  keywords: ["Reescritura", "Anti-plagio", "Citación APA", "Paráfrasis constructiva"],
+                  definition: "La paráfrasis se define como la habilidad de reescribir un fragmento o idea ajena empleando una estructura sintáctica y un léxico totalmente propios, resguardando escrupulosamente el significado original del autor primigenio. En el ámbito universitario es indispensable para integrar literatura especializada sin incurrir en plagio, acompañándola siempre de su respectiva cita bibliográfica.",
+                  keyPoints: [
+                    "Paráfrasis mecánica: Sustituye palabras por sinónimos manteniendo casi intacta la sintaxis (poco recomendada).",
+                    "Paráfrasis constructiva: Reelabora por completo la estructura de la oración demostrando comprensión real.",
+                    "Integridad académica: Toda paráfrasis requiere indicar el autor y año según normas APA 7.",
+                    "Fidelidad semántica: No distorsiona ni exagera la afirmación del autor original."
+                  ],
+                  practicalTip: "Lee el párrafo original, cierra el documento y explica la idea con tus propias palabras como si se la contaras a un colega; luego verifica fidelidad y cita la fuente.",
+                  imageUrl: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=mWxAtHZ370M",
+                  externalUrl: "https://concepto.de/parafrasis/"
+                },
+                {
+                  id: "u1-argumento",
+                  title: "El Argumento",
+                  keywords: ["Premisas", "Conclusión", "Evidencia empírica", "Falacias"],
+                  definition: "El argumento es un razonamiento lógico y estructurado compuesto por un conjunto de premisas que conducen de manera fundamentada a una conclusión, diseñado para defender una tesis o demostrar la validez de una afirmación. En la producción académica debe sustentarse en datos empíricos, autoridad científica y rigor lógico, evitando falacias informales.",
+                  keyPoints: [
+                    "Estructura básica: Afirmación (tesis) + Razonamiento lógico + Evidencia verificable (datos, citas, hechos).",
+                    "Tipos de argumentos: Deductivos, inductivos, de autoridad, por analogía y basados en datos estadísticos.",
+                    "Prevención de falacias: Evitar ataques ad hominem, generalizaciones apresuradas o apelaciones a la ignorancia.",
+                    "Solidez y pertinencia: Las premisas deben ser verdaderas y relevantes para sostener la conclusión."
+                  ],
+                  practicalTip: "Aplica el modelo ARE (Afirmación, Razonamiento, Evidencia) en cada párrafo argumentativo de tus trabajos universitarios.",
+                  imageUrl: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=geBiUY2ix9I",
+                  externalUrl: "https://concepto.de/argumento/"
+                },
+                {
+                  id: "u1-descripcion",
+                  title: "La Descripción",
+                  keywords: ["Observación", "Precisión", "Descripción técnica", "Atributos"],
+                  definition: "La descripción es la modalidad discursiva mediante la cual se detallan de forma ordenada y minuciosa las cualidades, partes, propiedades o funcionamiento de un objeto, fenómeno, proceso o escenario. En textos científicos predomina la descripción técnica u objetiva, caracterizada por la precisión terminológica, la ausencia de subjetividad y el orden lógico (de lo general a lo particular).",
+                  keyPoints: [
+                    "Descripción técnica/objetiva: Exacta, denotativa y verificable (usada en metodologías y manuales).",
+                    "Descripción literaria/subjetiva: Connotativa y estética, centrada en la percepción del autor.",
+                    "Fases del proceso descriptivo: Observación rigurosa, selección de rasgos pertinentes y ordenamiento expositivo.",
+                    "Precisión léxica: Uso de adjetivos especificativos y terminología propia de la disciplina."
+                  ],
+                  practicalTip: "Organiza tus descripciones siguiendo un criterio espacial (de arriba abajo, del exterior al interior) o funcional.",
+                  imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=jB862dE_6oM",
+                  externalUrl: "https://concepto.de/descripcion/"
+                },
+                {
+                  id: "u1-ensayo",
+                  title: "El Ensayo: Estructura y Características",
+                  keywords: ["Tesis", "Introducción", "Desarrollo", "Conclusión", "Pensamiento crítico"],
+                  definition: "El ensayo académico es un género discursivo en prosa en el cual el autor analiza, interpreta y evalúa un tema determinado desde una perspectiva crítica, original y rigurosamente argumentada. Se distingue por combinar libertad temática y estilo reflexivo con el rigor metodológico de la citación científica y la coherencia estructural.",
+                  keyPoints: [
+                    "Introducción (10-15%): Contextualiza el tema, plantea el problema y formula explícitamente la tesis o postura central.",
+                    "Desarrollo o cuerpo argumentativo (70-75%): Despliega argumentos, contraargumentos y evidencias bibliográficas.",
+                    "Conclusión (10-15%): Sintetiza los hallazgos principales, reafirma la tesis a la luz de lo demostrado y abre nuevas interrogantes.",
+                    "Referencias bibliográficas: Listado completo de fuentes citadas bajo normativa estándar (APA 7)."
+                  ],
+                  practicalTip: "Asegúrate de que tu tesis en la introducción sea una afirmación debatible y específica, nunca una obviedad o un simple dato histórico.",
+                  imageUrl: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=geBiUY2ix9I",
+                  externalUrl: "https://concepto.de/ensayo/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: "unit2",
+          number: 2,
+          title: "Comunicación No Verbal y Paralingüística",
+          description: "Estudio científico de la cinésica, proxémica, comunicación artefactual y modulación paralingüística en presentaciones académicas y profesionales.",
+          badgeClass: "bg-purple-50 text-purple-700 border-purple-200",
+          accentBg: "bg-purple-600",
+          accentHover: "hover:bg-purple-700",
+          accentText: "text-purple-600",
+          progressFill: "bg-purple-600",
+          icon: "🗣️",
+          themes: [
+            {
+              id: "unit2-theme1",
+              title: "Temática 1: Habilidades de la comunicación no verbal. Comunicación artefactual.",
+              subtitle: "Lenguaje corporal, gestión del espacio y semiótica de los objetos en el entorno comunicativo.",
+              topics: [
+                {
+                  id: "u2-contacto-visual",
+                  title: "El Contacto Visual",
+                  keywords: ["Oculesia", "Credibilidad", "Conexión", "Retroalimentación"],
+                  definition: "El contacto visual (estudiado por la oculesia) es uno de los componentes cinésicos más determinantes en la oratoria académica y profesional. Establecer y sostener una mirada equilibrada hacia los distintos sectores del auditorio proyecta seguridad, honestidad intelectual y empatía, permitiendo además percibir en tiempo real el grado de comprensión e interés de la audiencia.",
+                  keyPoints: [
+                    "Barrido visual panorámico: Distribuir la mirada en forma de 'W' o 'M' para incluir a toda la sala.",
+                    "Duración óptima: Sostener la mirada entre 3 y 5 segundos por persona o grupo sin intimidar.",
+                    "Evitar barreras visuales: No leer continuamente las diapositivas ni mirar al suelo o al techo.",
+                    "Lectura de audiencia: Detecta señales de duda, fatiga o acuerdo en los oyentes."
+                  ],
+                  practicalTip: "En exposiciones virtuales (videoconferencias), mira directamente al lente de la cámara al enfatizar tus ideas clave para simular contacto visual directo.",
+                  imageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=AExIhr6hkok",
+                  externalUrl: "https://www.analisisnoverbal.com/contacto-visual-y-comunicacion-no-verbal/"
+                },
+                {
+                  id: "u2-posturas",
+                  title: "Posturas y Movimientos",
+                  keywords: ["Cinésica", "Ergonomía", "Desplazamiento", "Autoridad escénica"],
+                  definition: "Las posturas y los desplazamientos corporales comunican de forma continua el estado emocional, la apertura y la seguridad de un expositor frente a su público. Una postura erguida, simétrica y abierta, combinada con movimientos deliberados y pausados en el escenario, refuerza la autoridad discursiva y dinamiza la atención visual.",
+                  keyPoints: [
+                    "Postura abierta: Hombros relajados, pecho despejado y extremidades sin cruzar proyectan receptividad.",
+                    "Desplazamiento con propósito: Caminar al cambiar de bloque temático ayuda a marcar transiciones estructurales.",
+                    "Control de tics motores: Evitar el balanceo nervioso repetitivo, manos en los bolsillos o rigidez estática.",
+                    "Anclaje corporal: Mantener el eje vertical estable al enunciar conclusiones relevantes."
+                  ],
+                  practicalTip: "Mantén los pies separados al ancho de los hombros para lograr estabilidad física y proyectar aplomo desde el primer segundo.",
+                  imageUrl: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=1D6rw5qqhWo",
+                  externalUrl: "https://www.analisisnoverbal.com/lenguaje-corporal-y-comunicacion-no-verbal/"
+                },
+                {
+                  id: "u2-gestos",
+                  title: "Los Gestos y la Expresión Facial",
+                  keywords: ["Ilustradores", "Emblemas", "Microexpresiones", "Congruencia"],
+                  definition: "Los gestos manuales y la expresividad facial constituyen el complemento visual indispensable del discurso verbal, facilitando la comprensión de conceptos abstractos y transmitiendo convicción. La congruencia entre lo que se dice con palabras y lo que expresa el rostro es la base de la credibilidad del comunicador.",
+                  keyPoints: [
+                    "Gestos ilustradores: Acompañan y dibujan el discurso verbal (enumerar con dedos, señalar magnitud).",
+                    "Expresión facial auténtica: La sonrisa natural al iniciar genera rapport y reduce la tensión del auditorio.",
+                    "Zona de gesticulación: Mantener las manos visibles entre la cintura y los hombros (caja de poder).",
+                    "Coherencia emocional: Alinear el semblante con la seriedad o entusiasmo del tema tratado."
+                  ],
+                  practicalTip: "Evita señalar directamente con el dedo índice al público (puede percibirse agresivo); utiliza en su lugar la palma abierta.",
+                  imageUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=uWQjJUfep9s",
+                  externalUrl: "https://es.wikipedia.org/wiki/Gesto"
+                },
+                {
+                  id: "u2-proxemica",
+                  title: "Proxémica y Manejo del Espacio",
+                  keywords: ["Edward Hall", "Distancia pública", "Distancia social", "Territorialidad"],
+                  definition: "La proxémica, desarrollada por el antropólogo Edward T. Hall, estudia la manera en que los seres humanos utilizan, estructuran y perciben el espacio físico durante la interacción comunicativa. El dominio de las distancias interpersonales permite adaptar la cercanía según el contexto cultural, jerárquico y académico.",
+                  keyPoints: [
+                    "Distancia íntima (0 - 45 cm): Reservada exclusivamente para vínculos afectivos muy cercanos.",
+                    "Distancia personal (45 cm - 1.2 m): Propia de conversaciones cotidianas entre compañeros.",
+                    "Distancia social (1.2 - 3.6 m): Habitual en reuniones de equipo, tutorías y entrevistas profesionales.",
+                    "Distancia pública (> 3.6 m): Utilizada en conferencias, aulas magnas y sustentaciones académicas."
+                  ],
+                  practicalTip: "Acercarte moderadamente hacia el público durante una pregunta retórica intensifica la conexión; retroceder cierra un tema.",
+                  imageUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=1D6rw5qqhWo",
+                  externalUrl: "https://es.wikipedia.org/wiki/Prox%C3%A9mica"
+                },
+                {
+                  id: "u2-artefactual",
+                  title: "Comunicación Artefactual",
+                  keywords: ["Objetos", "Entorno", "Indumentaria", "Apoyos visuales"],
+                  definition: "La comunicación artefactual analiza los mensajes no verbales que transmiten los objetos físicos, la vestimenta, los accesorios y la disposición arquitectónica o escenográfica del entorno donde ocurre la comunicación. Todo artefacto presente en escena refuerza o distrae respecto al propósito del mensaje.",
+                  keyPoints: [
+                    "Objetos integrados: Elementos usados directamente con un fin comunicativo (puntero láser, pizarra, maqueta).",
+                    "Objetos incidentales: Elementos que afectan al receptor sin intención directa (iluminación, acústica, mobiliario).",
+                    "Objetos revelados: Vestimenta formal, credenciales institucionales o dispositivos visibles.",
+                    "Objetos ocultos: Elementos retirados deliberadamente para evitar contaminación o distracción visual."
+                  ],
+                  practicalTip: "Cuida el fondo de tu cámara en exposiciones remotas (iluminación frontal, orden visual) y viste acorde al protocolo académico.",
+                  imageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=AExIhr6hkok",
+                  externalUrl: "https://concepto.de/comunicacion-no-verbal/"
+                }
+              ]
+            },
+            {
+              id: "unit2-theme2",
+              title: "Temática 2: Paralingüística.",
+              subtitle: "Cualidades acústicas de la voz, modulación expresiva y técnica vocal para oradores.",
+              topics: [
+                {
+                  id: "u2-paralinguistica",
+                  title: "Paralingüística",
+                  keywords: ["Elementos vocales", "Entonación", "Pausas", "Ritmo"],
+                  definition: "La paralingüística es la disciplina que estudia los elementos vocales no verbales que acompañan a la emisión lingüística (cómo se dice algo, más allá de qué palabras se usan). Incluye las inflexiones tonales, los silencios estratégicos, el ritmo del habla y las vocalizaciones, capaces de transformar por completo el sentido pragmático de un enunciado.",
+                  keyPoints: [
+                    "Pausas estratégicas: Un silencio de 2 segundos antes o después de un dato clave genera expectación y énfasis.",
+                    "Ritmo y velocidad: Alternar entre 130 y 160 palabras por minuto evita tanto la monotonía como el atropello verbal.",
+                    "Inflexión tonal: Evitar dejar todas las frases con entonación ascendente (que denota inseguridad).",
+                    "Vocalizaciones y suspiros: Señales sonoras no verbales que comunican emociones o transiciones."
+                  ],
+                  practicalTip: "Graba un ensayo de 2 minutos de tu presentación y escúchalo solo con audio para detectar monotonía o muletillas sonoras ('ehh', 'este').",
+                  imageUrl: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=UpSX4R5zbO8",
+                  externalUrl: "https://www.cun.es/diccionario-medico/terminos/comunicacion-paralinguistica"
+                },
+                {
+                  id: "u2-funciones-voz",
+                  title: "Funciones de la Voz",
+                  keywords: ["Persuasión", "Jerarquización", "Atención", "Expresividad"],
+                  definition: "Las funciones de la voz en la comunicación oral comprenden su papel como vehículo fisiológico del pensamiento, regulador de la atención colectiva, marcador de jerarquía argumentativa y transmisor de emociones y convicción. Un dominio vocal consciente previene la fatiga auditiva del público y protege la salud laríngea del orador.",
+                  keyPoints: [
+                    "Captar y sostener interés: Los contrastes vocales reactivan la atención del auditorio cada pocos minutos.",
+                    "Jerarquizar ideas: Diferenciar acústicamente una tesis central de una aclaración secundaria.",
+                    "Transmitir credibilidad: Una voz firme y resonante proyecta dominio temático.",
+                    "Regular la interacción: Señalar turnos de palabra, apertura y cierre de intervenciones."
+                  ],
+                  practicalTip: "Hidrátate con agua a temperatura ambiente antes de exponer y evita bebidas muy frías o con cafeína en exceso que resequen las cuerdas vocales.",
+                  imageUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=eqQWPcU4uaU",
+                  externalUrl: "https://www.cun.es/diccionario-medico/terminos/comunicacion-paralinguistica"
+                },
+                {
+                  id: "u2-caracteristicas-voz",
+                  title: "Características de la Voz",
+                  keywords: ["Tono", "Timbre", "Intensidad", "Duración"],
+                  definition: "Desde la acústica y la fonoaudiología, la voz humana se define por cuatro cualidades físicas fundamentales: el tono (altura musical grave o aguda según la frecuencia de vibración), el timbre (personalidad sonora dada por los resonadores), la intensidad (volumen o fuerza de proyección) y la duración (extensión temporal de los sonidos y pausas).",
+                  keyPoints: [
+                    "Tono: Modulación entre registros graves (autoridad, seriedad) y medios/agudos (dinamismo, entusiasmo).",
+                    "Timbre: Huella acústica única determinada por las cavidades de resonancia (faringe, boca, senos paranasales).",
+                    "Intensidad: Volumen ajustado al tamaño del recinto sin llegar al grito forzado.",
+                    "Duración: Control de la velocidad elocutiva y alargamiento enfático de sílabas clave."
+                  ],
+                  practicalTip: "Proyecta la voz hacia la última fila del aula utilizando el apoyo diafragmático en lugar de forzar la garganta.",
+                  imageUrl: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=on7vU6Lom98",
+                  externalUrl: "https://concepto.de/voz/"
+                },
+                {
+                  id: "u2-articulacion",
+                  title: "Habilidades de la Articulación de la Voz",
+                  keywords: ["Dicción", "Respiración diafragmática", "Vocalización", "Claridad"],
+                  definition: "La articulación es el proceso neuromuscular mediante el cual los órganos activos y pasivos del aparato fonador (labios, lengua, dientes, alvéolos, paladar y velo) moldean el flujo de aire sonorizado para producir fonemas nítidos. Una dicción precisa elimina el ceceo, la omisión de consonantes finales y las ambigüedades léxicas.",
+                  keyPoints: [
+                    "Respiración costo-diafragmática: Base energética que asegura estabilidad y potencia sin tensión cervical.",
+                    "Apertura bucal y movilidad labial: Permiten que las vocales resuenen con claridad y las consonantes se definan.",
+                    "Pronunciación de finales de palabra: Evitar comerse las 's' o 'd' finales en términos técnicos.",
+                    "Ejercicios de calentamiento: Trabalenguas, lectura silabeada y relajación mandibular previa a la exposición."
+                  ],
+                  practicalTip: "Practica leyendo un párrafo técnico sosteniendo un lápiz limpiamente entre los dientes (sin morderlo con fuerza) y luego léelo normal: notarás una dicción mucho más nítida.",
+                  imageUrl: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=b92hoYRMK8k",
+                  externalUrl: "https://concepto.de/fonetica/"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: "unit3",
+          number: 3,
+          title: "Búsqueda de Información y Bases de Datos",
+          description: "Etapas del proceso de búsqueda, técnicas de recuperación bibliográfica, criterios de evaluación y bases de datos científicas y gestores individuales.",
+          badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200",
+          accentBg: "bg-emerald-600",
+          accentHover: "hover:bg-emerald-700",
+          accentText: "text-emerald-600",
+          progressFill: "bg-emerald-600",
+          icon: "🔍",
+          themes: [
+            {
+              id: "unit3-theme1",
+              title: "Temática 1: Etapas del proceso de búsqueda de información. Técnicas de búsqueda de información.",
+              subtitle: "Fases sistemáticas de planificación documental, selección de fuentes, estrategias booleanas y evaluación crítica.",
+              topics: [
+                {
+                  id: "u3-etapas-proceso",
+                  title: "Etapas del Proceso de Búsqueda de Información",
+                  keywords: ["Fases de búsqueda", "Necesidad informativa", "Ecuación", "Evaluación"],
+                  definition: "El proceso de búsqueda de información científica es una secuencia metodológica estructurada en cinco etapas esenciales: (1) identificación y definición precisa de la necesidad de información; (2) determinación del nivel y cobertura temática, temporal e idiomática; (3) selección de las fuentes y bases de datos pertinentes; (4) diseño y ejecución de la estrategia de búsqueda; y (5) evaluación crítica y gestión ética de los resultados.",
+                  keyPoints: [
+                    "Fase 1 - Análisis del problema: Transformar el tema general en preguntas de investigación y conceptos clave.",
+                    "Fase 2 - Delimitación: Definir rango temporal (ej. últimos 5 años) e idiomas de consulta.",
+                    "Fase 3 - Selección de repositorios: Elegir bases multidisciplinarias o especializadas según el área.",
+                    "Fase 4 y 5 - Ejecución y filtrado: Aplicar operadores lógicos, revisar abstracts y exportar citas válidas."
+                  ],
+                  practicalTip: "Documenta en una bitácora de búsqueda qué palabras clave y qué bases de datos utilizaste para poder replicar o refinar tu revisión bibliográfica.",
+                  imageUrl: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=W8GPIYQb7OA",
+                  externalUrl: "https://www.salusplay.com/apuntes/apuntes-metodologia-de-la-investigacion/tema-8-la-estrategia-de-busqueda"
+                },
+                {
+                  id: "u3-nivel-cobertura",
+                  title: "Establecer el Nivel y la Cobertura de la Búsqueda",
+                  keywords: ["Delimitación", "Rango temporal", "Idioma", "Alcance"],
+                  definition: "Establecer el nivel y la cobertura de la búsqueda constituye la etapa estratégica inicial para delimitar con precisión el alcance de la revisión documental. Implica definir el nivel de profundidad requerido (introductorio, académico o altamente especializado), el intervalo cronológico de publicación, la cobertura geográfica y los idiomas de consulta (español e inglés).",
+                  keyPoints: [
+                    "Delimitación temporal: En áreas tecnológicas y científicas se priorizan publicaciones recientes (últimos 5 años).",
+                    "Cobertura idiomática: Incluir descriptores en inglés amplía en más de un 80% el acceso a literatura indexada global.",
+                    "Tipología documental: Discriminar entre artículos empíricos, revisiones sistemáticas, tesis doctorales o libros.",
+                    "Alcance geográfico: Determinar si el estudio requiere contexto global, iberoamericano o nacional."
+                  ],
+                  practicalTip: "Antes de abrir un buscador, redacta en una oración tu objetivo de búsqueda y extrae de él 3 o 4 conceptos nucleares.",
+                  imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=W8GPIYQb7OA",
+                  externalUrl: "https://www.clickrank.ai/es/seo-glossary/q/what-is-query-space-coverage/"
+                },
+                {
+                  id: "u3-fuentes",
+                  title: "Seleccionar las Fuentes de Información",
+                  keywords: ["Fuentes primarias", "Fuentes secundarias", "Fuentes terciarias", "Arbitraje"],
+                  definition: "Seleccionar adecuadamente las fuentes de información exige clasificarlas jerárquicamente en primarias, secundarias y terciarias según el grado de originalidad y procesamiento de los datos. Priorizar fuentes arbitradas por pares (peer-reviewed) garantiza el rigor metodológico, la trazabilidad y la validez científica de los trabajos académicos.",
+                  keyPoints: [
+                    "Fuentes primarias: Contienen conocimiento nuevo y original (artículos de investigación, tesis, patentes, normas).",
+                    "Fuentes secundarias: Analizan, interpretan o compilan fuentes primarias (enciclopedias, revisiones, catálogos).",
+                    "Fuentes terciarias: Guías de consulta que remiten a repertorios y bases de datos bibliográficas.",
+                    "Literatura gris: Informes técnicos, actas de congresos y documentos gubernamentales con rigor institucional."
+                  ],
+                  practicalTip: "Prioriza siempre las fuentes primarias (artículos originales con DOI) sobre blogs generales o enciclopedias colaborativas abiertas.",
+                  imageUrl: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=WRCfpVR6IJU",
+                  externalUrl: "https://concepto.de/fuentes-de-informacion/"
+                },
+                {
+                  id: "u3-estrategia",
+                  title: "Elaborar la Estrategia de Búsqueda",
+                  keywords: ["Operadores booleanos", "AND OR NOT", "Comillas", "Tesauros"],
+                  definition: "Elaborar la estrategia de búsqueda consiste en traducir la necesidad de información a una ecuación documental estructurada mediante palabras clave normalizadas (tesauros como DeCS o ERIC), operadores booleanos (AND, OR, NOT), comillas para frases exactas y truncamientos (*). Esto maximiza tanto la exhaustividad como la precisión de los resultados recuperados.",
+                  keyPoints: [
+                    "AND (Intersección): Reduce y enfoca la búsqueda exigiendo que ambos términos aparezcan (ej. 'IA' AND 'educación').",
+                    "OR (Unión): Amplía la búsqueda incluyendo sinónimos o términos equivalentes (ej. 'TIC' OR 'tecnologías digitales').",
+                    "NOT (Exclusión): Elimina términos no deseados para evitar ruido documental.",
+                    "Comillas (\"\") y Truncamiento (*): Buscan frases exactas o todas las variantes morfológicas de una raíz (ej. educ*)."
+                  ],
+                  practicalTip: "Combina sinónimos con OR dentro de paréntesis y únelos con AND: (\"inteligencia artificial\" OR \"IA generativa\") AND (\"redacción académica\").",
+                  imageUrl: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=I4IjOkT2GZ8",
+                  externalUrl: "https://www.salusplay.com/apuntes/apuntes-metodologia-de-la-investigacion/tema-8-la-estrategia-de-busqueda"
+                },
+                {
+                  id: "u3-evaluacion-craap",
+                  title: "Evaluación Crítica de la Información (Criterios CRAAP)",
+                  keywords: ["Actualidad", "Relevancia", "Autoridad", "Exactitud", "Propósito"],
+                  definition: "Ante la sobreabundancia de información digital (infoxicación), todo investigador debe aplicar técnicas sistemáticas de validación antes de citar un documento. El método CRAAP evalúa cinco dimensiones esenciales para certificar la confiabilidad académica de un recurso.",
+                  keyPoints: [
+                    "Currency (Actualidad): Fecha de publicación, revisión o actualización de los datos.",
+                    "Relevance (Relevancia): Pertinencia directa respecto al tema y nivel académico requerido.",
+                    "Authority (Autoridad): Credenciales del autor, afiliación institucional y prestigio de la revista.",
+                    "Accuracy (Exactitud) y Purpose (Propósito): Respaldo bibliográfico verificable y objetividad científica."
+                  ],
+                  practicalTip: "Verifica si el artículo cuenta con identificador DOI (Digital Object Identifier) y filiación universitaria verificable.",
+                  imageUrl: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=W8GPIYQb7OA",
+                  externalUrl: "https://es.wikipedia.org/wiki/Evaluaci%C3%B3n_de_la_informaci%C3%B3n"
+                }
+              ]
+            },
+            {
+              id: "unit3-theme2",
+              title: "Temática 2: Bases de datos y gestores bibliográficos.",
+              subtitle: "Motores académicos, índices regionales, bases bibliométricas de alto impacto y gestores de referencias.",
+              topics: [
+                {
+                  id: "u3-google-academico",
+                  title: "Google Académico",
+                  keywords: ["Acceso libre", "Citas", "Alertas", "Perfil de autor"],
+                  definition: "Google Académico (Google Scholar) es un motor de búsqueda especializado en literatura científico-académica que indexa artículos revisados por pares, tesis doctorales, libros, resúmenes y ponencias de editoriales universitarias y repositorios institucionales. Permite rastrear cuántas veces ha sido citado un documento y exportar referencias en formato APA.",
+                  keyPoints: [
+                    "Búsqueda avanzada: Permite filtrar por autor, revista específica e intervalo de años.",
+                    "Rastreo de citas ('Citado por'): Facilita descubrir investigaciones más recientes basadas en un artículo seminal.",
+                    "Exportación directa: Botón 'Citar' con formatos APA, ISO 690 y MLA listos para copiar o enviar a gestores.",
+                    "Perfiles de investigadores: Permite consultar el índice h y las publicaciones verificadas de autores."
+                  ],
+                  practicalTip: "Configura tu biblioteca en Google Académico y crea alertas por correo electrónico para recibir los nuevos artículos sobre tu tema de tesis.",
+                  imageUrl: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=I4IjOkT2GZ8",
+                  externalUrl: "https://es.wikipedia.org/wiki/Google_Acad%C3%A9mico"
+                },
+                {
+                  id: "u3-latindex",
+                  title: "Latindex",
+                  keywords: ["Iberoamérica", "Catálogo 2.0", "Calidad editorial", "Revistas"],
+                  definition: "Latindex es un sistema regional de información en línea para revistas científicas de América Latina, el Caribe, España y Portugal, coordinado por la UNAM. Su Catálogo 2.0 certifica aquellas publicaciones periódicas que cumplen con los más altos estándares internacionales de calidad editorial, arbitraje y visibilidad digital.",
+                  keyPoints: [
+                    "Directorio y Catálogo 2.0: Distingue entre revistas registradas y revistas rigurosamente evaluadas bajo 38 criterios.",
+                    "Enfoque iberoamericano: Principal referente para validar la calidad de revistas científicas en español y portugués.",
+                    "Transparencia editorial: Evalúa políticas de acceso abierto, detección de plagio y revisión por pares.",
+                    "Portal de portales: Facilita el enlace directo hacia los sitios oficiales de miles de revistas académicas."
+                  ],
+                  practicalTip: "Utiliza Latindex Catálogo 2.0 para comprobar si una revista latinoamericana cumple criterios rigurosos de calidad científica antes de citarla.",
+                  imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=ErUnP5l813s",
+                  externalUrl: "https://es.wikipedia.org/wiki/Latindex"
+                },
+                {
+                  id: "u3-scielo",
+                  title: "SciELO",
+                  keywords: ["Acceso Abierto", "Texto completo", "América Latina", "Ciencia abierta"],
+                  definition: "SciELO (Scientific Electronic Library Online) es una biblioteca electrónica cooperativa que publica revistas científicas arbitradas en acceso abierto completo y gratuito. Nacida en Brasil y extendida a toda Iberoamérica y Sudáfrica, asegura la visibilidad internacional y el acceso equitativo al conocimiento científico.",
+                  keyPoints: [
+                    "Acceso abierto diamante: Lectura y descarga gratuita del texto completo en PDF y HTML sin barreras de pago.",
+                    "Indicadores bibliométricos: Ofrece estadísticas de uso, descargas y citación dentro de la red SciELO.",
+                    "Multidisciplinariedad: Destaca en ciencias de la salud, educación, ingeniería, ciencias sociales y humanidades.",
+                    "Interoperabilidad: Permite exportar citas en formato RIS/BibTeX e integra enlaces directos con Google Scholar."
+                  ],
+                  practicalTip: "Usa la búsqueda por colecciones nacionales o temática en SciELO para descargar artículos completos con métricas de citación integradas.",
+                  imageUrl: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=WRCfpVR6IJU",
+                  externalUrl: "https://es.wikipedia.org/wiki/SciELO"
+                },
+                {
+                  id: "u3-scopus",
+                  title: "Scopus",
+                  keywords: ["Elsevier", "Cuartiles Q1-Q4", "Índice h", "Bibliometría"],
+                  definition: "Scopus es la mayor base de datos referencial de resúmenes y citas de literatura científica revisada por pares a nivel mundial, gestionada por Elsevier. Constituye el estándar internacional para evaluar el impacto científico mediante indicadores como CiteScore, SJR (SCImago Journal Rank), cuartiles (Q1 a Q4) y el índice h.",
+                  keyPoints: [
+                    "Cobertura global selectiva: Indexa más de 27,000 revistas arbitradas sometidas a estricta evaluación continua.",
+                    "Análisis bibliométrico: Permite visualizar tendencias de investigación por país, institución, año y autor.",
+                    "Clasificación por cuartiles: Q1 representa el 25% de revistas con mayor impacto en cada área del conocimiento.",
+                    "Búsqueda estructurada: Operadores avanzados por campos (TITLE-ABS-KEY, AUTHOR-NAME, DOI)."
+                  ],
+                  practicalTip: "Ingresa a Scopus a través del portal de bibliotecas virtuales de tu universidad para acceder a los filtros avanzados y exportación RIS/BibTeX.",
+                  imageUrl: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=ErUnP5l813s",
+                  externalUrl: "https://es.wikipedia.org/wiki/Scopus"
+                },
+                {
+                  id: "u3-redalyc",
+                  title: "Redalyc",
+                  keywords: ["Acceso Abierto", "UAEM", "Ciencias Sociales", "Visibilidad científica"],
+                  definition: "Redalyc (Red de Revistas Científicas de América Latina y el Caribe, España y Portugal) es un sistema de indización y plataforma de acceso abierto no comercial impulsado por la Universidad Autónoma del Estado de México (UAEM). Promueve la ciencia como bien común global, ofreciendo lectura en visor inteligente, descarga gratuita y métricas de producción científica.",
+                  keyPoints: [
+                    "Modelo Diamante sin fines de lucro: Acceso abierto sin cobros por leer ni por publicar (sin APC).",
+                    "Visor inteligente y formatos múltiples: Lectura en línea, PDF, ePUB y generación automática de citas.",
+                    "Fuerte presencia en Ciencias Sociales y Humanidades: Complementa la cobertura de bases anglosajonas.",
+                    "Perfiles de autores e instituciones: Permite analizar la colaboración científica regional."
+                  ],
+                  practicalTip: "Aprovecha el generador automático de citas de Redalyc (en formato APA 7) y sus filtros por país y disciplina para enriquecer tu marco teórico.",
+                  imageUrl: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=WRCfpVR6IJU",
+                  externalUrl: "https://es.wikipedia.org/wiki/Redalyc"
+                },
+                {
+                  id: "u3-wos",
+                  title: "Web of Science (WoS)",
+                  keywords: ["Clarivate", "Factor de Impacto", "JCR", "Colección Principal"],
+                  definition: "Web of Science (WoS), administrada por Clarivate Analytics, es una de las plataformas bibliográficas y cienciométricas más prestigiosas del mundo. Alberga la Colección Principal (Science Citation Index, Social Sciences Citation Index y Arts & Humanities Citation Index) y calcula el reconocido Factor de Impacto (Journal Impact Factor - JIF).",
+                  keyPoints: [
+                    "Journal Citation Reports (JCR): Evalúa y clasifica las revistas de mayor prestigio internacional por Factor de Impacto.",
+                    "Red de citas históricas: Permite rastrear el impacto de un descubrimiento desde su publicación original hasta la actualidad.",
+                    "Rigor de selección: Proceso editorial altamente exigente que garantiza estándares científicos de élite.",
+                    "Integración con EndNote: Facilita la exportación directa de registros bibliográficos completos."
+                  ],
+                  practicalTip: "Utiliza Web of Science junto con Scopus para realizar revisiones sistemáticas de literatura con cobertura internacional exhaustiva.",
+                  imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=ErUnP5l813s",
+                  externalUrl: "https://es.wikipedia.org/wiki/Web_of_Science"
+                },
+                {
+                  id: "u3-zotero",
+                  title: "Zotero",
+                  keywords: ["Gestor bibliográfico", "Código abierto", "APA 7", "Zotero Connector"],
+                  definition: "Zotero es un gestor de referencias bibliográficas gratuito y de código abierto diseñado para recolectar, organizar, anotar, citar y compartir fuentes de investigación. Mediante su extensión para navegadores (Zotero Connector) captura metadatos con un solo clic y se integra directamente en Microsoft Word, Google Docs y LibreOffice.",
+                  keyPoints: [
+                    "Captura automática desde el navegador: Detecta artículos, libros, tesis y páginas web guardando su PDF y metadatos.",
+                    "Integración con procesadores de texto: Inserta citas en el texto y genera la bibliografía en más de 10,000 estilos (APA 7, IEEE, Vancouver).",
+                    "Lector de PDF integrado: Permite subrayar, añadir notas adhesivas y extraer anotaciones directamente a tus borradores.",
+                    "Bibliotecas grupales: Facilita compartir carpetas bibliográficas en proyectos de investigación colaborativos."
+                  ],
+                  practicalTip: "Revisa siempre los metadatos importados en Zotero (mayúsculas en títulos, nombres de autores) antes de generar tu bibliografía final en APA 7.",
+                  imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=I4IjOkT2GZ8",
+                  externalUrl: "https://www.zotero.org/"
+                },
+                {
+                  id: "u3-mendeley",
+                  title: "Mendeley",
+                  keywords: ["Elsevier", "Gestor de referencias", "Red académica", "Mendeley Cite"],
+                  definition: "Mendeley es un gestor bibliográfico y red social académica desarrollada por Elsevier que combina la organización de documentos PDF con herramientas de colaboración científica. A través de Mendeley Reference Manager y su complemento Mendeley Cite para Word, automatiza la citación normativa y el descubrimiento de literatura relacionada.",
+                  keyPoints: [
+                    "Sincronización multiplataforma: Accede a tu biblioteca y anotaciones desde escritorio, web o dispositivos móviles.",
+                    "Mendeley Cite: Complemento moderno para Microsoft Word que inserta citas y referencias sin salir del documento.",
+                    "Extracción inteligente de metadatos: Lee automáticamente autores, año, revista y DOI al arrastrar archivos PDF.",
+                    "Grupos privados de investigación: Permite debatir y anotar artículos en equipo."
+                  ],
+                  practicalTip: "Organiza tus carpetas en Mendeley por capítulos de tu tesis o variables de estudio para localizar rápidamente cada referencia al redactar.",
+                  imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=I4IjOkT2GZ8",
+                  externalUrl: "https://es.wikipedia.org/wiki/Mendeley"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: "unit4",
+          number: 4,
+          title: "Herramientas Digitales e IA para Documentos y Presentaciones",
+          description: "Dominio profesional de procesadores de texto, hojas de cálculo, aplicaciones de presentación (PowerPoint, Prezi, Canva), trabajo colaborativo y herramientas de IA generativa para documentos, hojas de cálculo, informes y presentaciones académicas (Copilot, Gemini, IA).",
+          badgeClass: "bg-rose-50 text-rose-700 border-rose-200",
+          accentBg: "bg-rose-600",
+          accentHover: "hover:bg-rose-700",
+          accentText: "text-rose-600",
+          progressFill: "bg-rose-600",
+          icon: "💻",
+          themes: [
+            {
+              id: "unit4-theme1",
+              title: "Temática 1: Procesador de textos. Hoja de cálculo.",
+              subtitle: "Generalidades y aplicaciones profesionales de procesadores de texto y hojas de cálculo en la gestión documental y cuantitativa.",
+              topics: [
+                {
+                  id: "u4-procesadores",
+                  title: "Procesadores de Texto",
+                  keywords: ["Microsoft Word", "Google Docs", "Estilos", "Tabla de contenido", "Normas APA"],
+                  definition: "Los procesadores de texto modernos (Microsoft Word, Google Docs, LibreOffice Writer) trascienden la simple escritura digital para convertirse en entornos avanzados de maquetación editorial y gestión documental profesional. Su dominio implica automatizar estilos jerárquicos, tablas de contenido, saltos de sección, encabezados diferenciados, control de cambios y citación normativa.",
+                  keyPoints: [
+                    "Estilos y Tabla de Contenido automática: Aplicar 'Título 1, 2, 3' permite generar índices dinámicos actualizables.",
+                    "Saltos de sección: Permiten combinar páginas verticales y horizontales o numeración romana y arábiga en un mismo informe.",
+                    "Control de cambios y comentarios: Herramienta indispensable para tutorías de tesis y revisión editorial en equipo.",
+                    "Maquetación normativa: Configuración precisa de márgenes, interlineado, sangría francesa y títulos de tablas/figuras."
+                  ],
+                  practicalTip: "Nunca presiones 'Enter' repetidas veces para pasar a una página nueva; utiliza siempre 'Salto de página' (Ctrl + Enter) para mantener intacto el formato.",
+                  imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=cR6mwPVJrtg",
+                  externalUrl: "https://es.wikipedia.org/wiki/Procesador_de_textos"
+                },
+                {
+                  id: "u4-hojas-calculo",
+                  title: "Hojas de Cálculo",
+                  keywords: ["Excel", "Google Sheets", "Fórmulas", "Tablas dinámicas", "Gráficos"],
+                  definition: "Las hojas de cálculo (Microsoft Excel, Google Sheets) son herramientas analíticas fundamentales para organizar, procesar, modelar y visualizar datos cuantitativos en investigaciones científicas y gestión empresarial. Permiten automatizar cálculos lógicos y estadísticos, validar entradas de datos, construir tablas dinámicas y generar gráficos ejecutivos.",
+                  keyPoints: [
+                    "Funciones esenciales: Lógicas (SI, Y, O), búsqueda (BUSCARX / BUSCARV) y estadísticas (PROMEDIO.SI, CONTAR.SI).",
+                    "Tablas dinámicas: Permiten resumir, cruzar y segmentar miles de registros en segundos sin alterar los datos base.",
+                    "Validación y formato condicional: Previenen errores de captura y resaltan automáticamente indicadores clave.",
+                    "Gráficos académicos y ejecutivos: Selección adecuada (barras para comparación, líneas para tendencias, dispersión para correlación)."
+                  ],
+                  practicalTip: "Mantén siempre una hoja exclusiva para tus 'Datos Crudos' sin celdas combinadas y realiza tus análisis y gráficos en hojas separadas.",
+                  imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=cR6mwPVJrtg",
+                  externalUrl: "https://es.wikipedia.org/wiki/Hoja_de_c%C3%A1lculo"
+                }
+              ]
+            },
+            {
+              id: "unit4-theme2",
+              title: "Temática 2: Software y aplicaciones. Herramientas de IA generativa para la elaboración de documentos, hojas de cálculo, informes y presentaciones académicas.",
+              subtitle: "Presentaciones (PowerPoint, Prezi, Canva), trabajo colaborativo, IA generativa, documentos, hojas de cálculo, informes, presentaciones académicas, Copilot, Gemini e IA.",
+              topics: [
+                {
+                  id: "u4-usos-presentaciones",
+                  title: "Usos de las Presentaciones",
+                  keywords: ["Síntesis visual", "Jerarquía", "Regla 6x6", "Diseño limpio"],
+                  definition: "Las presentaciones multimedia son soportes visuales estratégicos diseñados para reforzar, ilustrar y estructurar la transmisión de información durante una exposición oral, nunca para sustituir al orador como un teleprompter. Una presentación eficaz aplica principios de diseño cognitivo: contraste alto, tipografía legible, jerarquía visual y predominio de esquemas sobre bloques densos de texto.",
+                  keyPoints: [
+                    "Una idea central por diapositiva: Evita sobrecargar la memoria de trabajo de la audiencia.",
+                    "Regla del 6x6 / Síntesis visual: Máximo 6 líneas por diapositiva y frases cortas acompañadas de iconos o gráficos.",
+                    "Coherencia cromática: Máximo 2 o 3 colores institucionales con alto contraste entre fondo y texto.",
+                    "Apoyo al discurso oral: Las diapositivas muestran evidencia visual mientras el expositor desarrolla la explicación."
+                  ],
+                  practicalTip: "Si una diapositiva puede leerse y entenderse por completo sin que tú hables, tiene demasiado texto: transfórmala en un esquema visual.",
+                  imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=cNU5NEcrzsw",
+                  externalUrl: "https://concepto.de/diapositiva/"
+                },
+                {
+                  id: "u4-powerpoint",
+                  title: "Microsoft PowerPoint",
+                  keywords: ["Diapositivas", "Patrón de diapositivas", "Transición Morph", "Modo Moderador"],
+                  definition: "Microsoft PowerPoint es el software estándar de presentación multimedia en entornos corporativos y universitarios. Destaca por su precisión en la alineación de objetos, el uso del Patrón de Diapositivas para mantener coherencia institucional, animaciones avanzadas como la transición Transformación (Morph) y la integración nativa con gráficos dinámicos de Excel.",
+                  keyPoints: [
+                    "Patrón de Diapositivas (Slide Master): Permite definir tipografías, logos y paletas globales en segundos.",
+                    "Transición Transformación (Morph): Crea animaciones fluidas y cinematográficas entre diapositivas consecutivas.",
+                    "Vista Moderador: Muestra al expositor sus notas privadas, el temporizador y la siguiente diapositiva en pantalla.",
+                    "Exportación versátil: Permite guardar como PDF, video MP4 narrado o presentación interactiva."
+                  ],
+                  practicalTip: "Utiliza las herramientas de 'Alinear' y 'Distribuir horizontalmente' en PowerPoint para que tus tarjetas y gráficos luzcan perfectamente simétricos.",
+                  imageUrl: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=xXvL5RwU1sw",
+                  externalUrl: "https://es.wikipedia.org/wiki/Microsoft_PowerPoint"
+                },
+                {
+                  id: "u4-prezi",
+                  title: "Prezi",
+                  keywords: ["Lienzo infinito", "Narrativa no lineal", "Zoom espacial", "Mapas visuales"],
+                  definition: "Prezi es una plataforma de presentaciones en la nube que sustituye las diapositivas secuenciales tradicionales por un lienzo virtual único e infinito. Mediante movimientos dinámicos de acercamiento (zoom) y desplazamiento espacial, permite mostrar tanto la visión panorámica de un tema como el detalle específico de cada subtema, favoreciendo una narrativa visual no lineal.",
+                  keyPoints: [
+                    "Estructura espacial y jerárquica: Permite visualizar cómo se conectan los subtemas dentro de un mapa global.",
+                    "Navegación no lineal: El expositor puede saltar libremente a cualquier sección según las preguntas del público.",
+                    "Prezi Video: Superpone los gráficos de la presentación junto al expositor en tiempo real durante videollamadas.",
+                    "Alojamiento en la nube: Facilita compartir enlaces directos de visualización sin adjuntar archivos pesados."
+                  ],
+                  practicalTip: "En Prezi, agrupa los subtemas cercanos espacialmente y evita giros o saltos de cámara demasiado bruscos para que la audiencia mantenga una lectura cómoda.",
+                  imageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=xXvL5RwU1sw",
+                  externalUrl: "https://es.wikipedia.org/wiki/Prezi"
+                },
+                {
+                  id: "u4-canva",
+                  title: "Canva",
+                  keywords: ["Diseño gráfico", "Plantillas", "Infografías", "Estudio Mágico"],
+                  definition: "Canva es una plataforma web de diseño gráfico y comunicación visual que democratiza la creación de presentaciones académicas, infografías, pósteres científicos e informes visuales. Combina una interfaz intuitiva de arrastrar y soltar con una extensa biblioteca de plantillas profesionales, tipografías, vectores y herramientas de edición asistidas por IA.",
+                  keyPoints: [
+                    "Biblioteca visual integrada: Acceso inmediato a millones de iconos, fotografías, gráficos y marcos.",
+                    "Kits de marca y plantillas: Garantizan armonía estética, tipográfica y cromática sin conocimientos avanzados de diseño.",
+                    "Multiformato académico: Permite transformar una presentación en infografía, documento o póster de congreso.",
+                    "Presentación interactiva en vivo: Incluye atajos de teclado en vivo (temporizador, desenfoque, confeti) y enlaces compartibles."
+                  ],
+                  practicalTip: "Aprovecha los gráficos de datos editables y los marcos de dispositivos en Canva para presentar resultados de encuestas y prototipos de forma atractiva.",
+                  imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=xXvL5RwU1sw",
+                  externalUrl: "https://es.wikipedia.org/wiki/Canva"
+                },
+                {
+                  id: "u4-colaborativo",
+                  title: "Trabajo Colaborativo en Presentaciones",
+                  keywords: ["Nube", "Coedición síncrona", "Google Slides", "Historial de versiones"],
+                  definition: "Las plataformas colaborativas en la nube (Google Slides, PowerPoint Online, Canva Teams) permiten que múltiples integrantes editen simultáneamente una misma presentación en tiempo real desde cualquier ubicación. Incluyen control de permisos, hilos de comentarios contextuales y trazabilidad completa mediante el historial de versiones.",
+                  keyPoints: [
+                    "Coedición en tiempo real: Eliminación de múltiples archivos desactualizados ('Final_v2_corregido.pptx').",
+                    "Gestión de roles y permisos: Asignación diferenciada de acceso como Lector, Comentador o Editor.",
+                    "Comentarios y asignación de tareas: Permite etiquetar (@) a compañeros para revisar secciones específicas.",
+                    "Historial de revisiones: Permite auditar contribuciones individuales y restaurar estados anteriores."
+                  ],
+                  practicalTip: "Asigna diapositivas específicas por integrante y utiliza una diapositiva maestra o tema compartido desde el inicio para garantizar unidad estética.",
+                  imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=Tnj4HpI6LqU",
+                  externalUrl: "https://es.wikipedia.org/wiki/Trabajo_colaborativo"
+                },
+                {
+                  id: "u4-herramientas-ia-generativa",
+                  title: "Herramientas de IA Generativa",
+                  keywords: ["IA Generativa", "Modelos LLM", "Prompts", "Productividad digital"],
+                  definition: "Las herramientas de Inteligencia Artificial Generativa son sistemas basados en modelos fundacionales y grandes modelos de lenguaje (LLM) capaces de generar contenido original —texto, código, imágenes, tablas, esquemas o presentaciones— a partir de instrucciones en lenguaje natural (prompts). En la educación superior y el entorno profesional actúan como asistentes cognitivos para acelerar la ideación, síntesis y estructuración del trabajo.",
+                  keyPoints: [
+                    "Generación multimodal: Crean y transforman texto, resúmenes, esquemas, tablas y recursos visuales.",
+                    "Ingeniería de prompts: Formular Rol + Contexto + Tarea + Restricciones mejora drásticamente la precisión.",
+                    "Alcances y límites: Aceleran borradores y análisis, pero no reemplazan el juicio crítico del investigador.",
+                    "Criterio ético y privacidad: Evitar ingresar datos confidenciales o personales sensibles en plataformas públicas."
+                  ],
+                  practicalTip: "Divide tareas complejas en pasos pequeños (primero esquema, luego borrador de una sección, finalmente revisión de estilo) en lugar de pedir todo en un solo prompt.",
+                  imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=S5wffL3L2K8",
+                  externalUrl: "https://es.wikipedia.org/wiki/Inteligencia_artificial_generativa"
+                },
+                {
+                  id: "u4-ia-documentos",
+                  title: "Documentos",
+                  keywords: ["Redacción asistida", "Esquemas", "Corrección de estilo", "Síntesis documental"],
+                  definition: "La elaboración de documentos académicos y profesionales asistida por IA generativa optimiza la planificación de esquemas, la redacción de borradores estructurados, la reformulación de párrafos densos y la revisión de claridad y coherencia. Permite transformar notas dispersas o matrices de lectura en textos con progresión temática clara y tono formal.",
+                  keyPoints: [
+                    "Arquitectura del documento: Propone índices, apartados y secuencias lógicas para artículos o monografías.",
+                    "Reescritura y claridad: Ayuda a eliminar redundancias, mejorar transiciones y ajustar el registro académico.",
+                    "Síntesis de notas: Ordena apuntes de clase o lecturas en resúmenes estructurados por categorías.",
+                    "Revisión humana obligatoria: El autor valida la exactitud conceptual, la originalidad y la citación correcta."
+                  ],
+                  practicalTip: "Pide a la IA que señale dónde falta cohesión o evidencia en tu propio borrador en lugar de pedirle que escriba el trabajo completo por ti.",
+                  imageUrl: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=S5wffL3L2K8",
+                  externalUrl: "https://es.wikipedia.org/wiki/Inteligencia_artificial_generativa"
+                },
+                {
+                  id: "u4-ia-hojas-calculo",
+                  title: "Hojas de Cálculo",
+                  keywords: ["Fórmulas con IA", "Análisis de datos", "Limpieza de tablas", "Tendencias"],
+                  definition: "La aplicación de IA generativa en hojas de cálculo facilita el diseño de fórmulas complejas, la limpieza y estandarización de datos, la detección de patrones o valores atípicos y la interpretación de resultados cuantitativos. Reduce el tiempo invertido en sintaxis de funciones y permite concentrarse en el análisis crítico de los datos.",
+                  keyPoints: [
+                    "Generación y explicación de fórmulas: Traduce necesidades lógicas o estadísticas a fórmulas exactas y audita errores.",
+                    "Organización y depuración: Sugiere criterios para normalizar formatos de fechas, categorías o textos.",
+                    "Exploración de tendencias: Ayuda a resumir variables y formular preguntas pertinentes para tablas dinámicas.",
+                    "Verificación numérica: Toda fórmula o cálculo sugerido debe comprobarse sobre los datos reales de la hoja."
+                  ],
+                  practicalTip: "Describe con exactitud los nombres de tus columnas y el rango de celdas al pedir una fórmula para evitar errores de referencia.",
+                  imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=S5wffL3L2K8",
+                  externalUrl: "https://es.wikipedia.org/wiki/Hoja_de_c%C3%A1lculo"
+                },
+                {
+                  id: "u4-ia-informes",
+                  title: "Informes",
+                  keywords: ["Informes técnicos", "Resumen ejecutivo", "Hallazgos", "Recomendaciones"],
+                  definition: "La elaboración de informes académicos, técnicos o de prácticas profesionales con apoyo de IA generativa permite organizar evidencias, redactar resúmenes ejecutivos claros, estructurar apartados de metodología, resultados y recomendaciones, y adaptar el formato a los requerimientos institucionales. Garantiza una presentación ordenada y ejecutiva de los hallazgos.",
+                  keyPoints: [
+                    "Estructura estandarizada: Organiza introducción, objetivo, procedimiento/metodología, resultados y conclusiones.",
+                    "Resumen ejecutivo: Sintetiza de forma directa los puntos críticos para lectores con tiempo limitado.",
+                    "Traducción de datos a hallazgos: Ayuda a redactar interpretaciones claras a partir de resultados tabulados.",
+                    "Trazabilidad de evidencias: Asegura que cada conclusión del informe corresponda a datos verificados."
+                  ],
+                  practicalTip: "Entrega a la herramienta los datos y resultados reales de tu práctica o estudio para que redacte un borrador fiel a lo observado.",
+                  imageUrl: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=S5wffL3L2K8",
+                  externalUrl: "https://es.wikipedia.org/wiki/Informe"
+                },
+                {
+                  id: "u4-ia-presentaciones-academicas",
+                  title: "Presentaciones Académicas",
+                  keywords: ["Guion de diapositivas", "Síntesis oral", "Notas del orador", "Defensa académica"],
+                  definition: "El uso de IA generativa para presentaciones académicas permite convertir artículos, ponencias o informes extensos en una secuencia lógica de diapositivas sintéticas, redactar notas del orador para la exposición oral y anticipar posibles preguntas del jurado o público. Facilita mantener el equilibrio entre claridad visual y rigor académico.",
+                  keyPoints: [
+                    "Esquema diapositiva por diapositiva: Distribuye introducción, problema, método, resultados y conclusiones.",
+                    "Síntesis de texto a puntos clave: Convierte párrafos densos en viñetas breves y conceptos visuales.",
+                    "Notas del orador y guion: Apoya la articulación oral sin saturar la pantalla proyectada.",
+                    "Simulación de preguntas: Ayuda a preparar respuestas argumentadas para defensas o exposiciones."
+                  ],
+                  practicalTip: "Revisa y depura el texto generado para las diapositivas aplicando síntesis visual (regla 6x6) antes de diseñarlo en PowerPoint, Prezi o Canva.",
+                  imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=cNU5NEcrzsw",
+                  externalUrl: "https://concepto.de/diapositiva/"
+                },
+                {
+                  id: "u4-copilot",
+                  title: "Microsoft Copilot",
+                  keywords: ["Microsoft 365", "Copilot", "Word y PowerPoint", "Excel"],
+                  definition: "Microsoft Copilot es un asistente basado en modelos grandes de lenguaje (LLM) integrado nativamente en el ecosistema Microsoft 365 (Word, Excel, PowerPoint, Outlook y Teams). Permite generar borradores estructurados a partir de documentos propios, transformar un informe de Word en una presentación de PowerPoint y analizar tendencias en Excel mediante lenguaje natural.",
+                  keyPoints: [
+                    "Copilot en Word: Redacta resúmenes ejecutivos, reescribe párrafos con tono académico y genera tablas comparativas.",
+                    "Copilot en PowerPoint: Crea estructuras de diapositivas y notas del orador a partir de un documento existente.",
+                    "Copilot en Excel: Sugiere fórmulas complejas, identifica valores atípicos y crea gráficos descriptivos.",
+                    "Contexto empresarial/educativo: Opera conectado de forma segura a los archivos de OneDrive y SharePoint del usuario."
+                  ],
+                  practicalTip: "Al pedirle a Copilot que genere una presentación desde un documento de Word, revisa siempre la jerarquía de títulos del documento base para obtener mejores resultados.",
+                  imageUrl: "https://images.unsplash.com/photo-1633419461186-7d40a38105ec?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=S5wffL3L2K8",
+                  externalUrl: "https://es.wikipedia.org/wiki/Microsoft_Copilot"
+                },
+                {
+                  id: "u4-gemini",
+                  title: "Google Gemini",
+                  keywords: ["Google Gemini", "Multimodalidad", "Google Workspace", "Análisis extenso"],
+                  definition: "Google Gemini es la familia de modelos de Inteligencia Artificial multimodal desarrollada por Google e integrada en Google Workspace (Docs, Gmail, Sheets, Slides y Drive). Su capacidad para procesar simultáneamente texto, código, imágenes, audio y documentos extensos lo convierte en un potente copiloto para el análisis bibliográfico y la redacción académica.",
+                  keyPoints: [
+                    "Arquitectura multimodal nativa: Comprende y relaciona texto, tablas, gráficos e imágenes en una misma consulta.",
+                    "Integración con Google Workspace: Asiste en la redacción en Docs, organiza tablas en Sheets y genera imágenes en Slides.",
+                    "Ventana de contexto amplia: Permite analizar artículos científicos extensos, extraer ideas clave y comparar metodologías.",
+                    "Búsqueda conectada: Facilita contrastar información actualizada mediante su integración con el ecosistema Google."
+                  ],
+                  practicalTip: "Usa la función 'Ayúdame a escribir' de Gemini en Google Docs para refinar la cohesión de tus párrafos o solicitar contraargumentos a tus hipótesis.",
+                  imageUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=S5wffL3L2K8",
+                  externalUrl: "https://es.wikipedia.org/wiki/Gemini_(modelo_de_lenguaje)"
+                },
+                {
+                  id: "u4-ia-investigacion",
+                  title: "Inteligencia Artificial en la Investigación",
+                  keywords: ["Prompt Engineering", "ChatGPT", "Alucinaciones", "Ética académica"],
+                  definition: "El uso responsable de modelos de Inteligencia Artificial en el ámbito universitario y de investigación exige dominar la ingeniería de prompts (instrucciones estructuradas), comprender las limitaciones probabilísticas de los modelos (como las alucinaciones de citas) y respetar los principios de integridad y transparencia académica.",
+                  keyPoints: [
+                    "Ingeniería de Prompts (Rol + Contexto + Tarea + Formato): Instrucciones precisas producen respuestas académicas rigurosas.",
+                    "Detección de alucinaciones: Los LLM pueden inventar referencias o DOIs; toda cita debe verificarse en Scopus, SciELO o Scholar.",
+                    "Asistente de lluvia de ideas y depuración: Ideal para delimitar temas, revisar gramática o traducir términos técnicos.",
+                    "Transparencia y ética (APA 7): Declarar el uso de herramientas de IA cuando hayan asistido en el procesamiento de textos o datos."
+                  ],
+                  practicalTip: "Nunca pidas a una IA que 'invente o busque citas bibliográficas' sin verificarlas tú mismo; úsala para mejorar la claridad de tus propios textos.",
+                  imageUrl: "https://images.unsplash.com/photo-1676299081847-824916de030a?w=800&q=80",
+                  youtubeUrl: "https://www.youtube.com/watch?v=S5wffL3L2K8",
+                  externalUrl: "https://es.wikipedia.org/wiki/ChatGPT"
+                }
+              ]
+            }
+          ]
+        }
+      ];
+
+      // ==================== BANCO DE PREGUNTAS PARA AUTOEVALUACIÓN ====================
+      const quizQuestions = [
+        {
+          question: "¿Cuál es la diferencia fundamental entre 'comunicación' y 'expresión'?",
+          options: [
+            "La expresión siempre requiere medios digitales y la comunicación es solo oral",
+            "La comunicación es un proceso bidireccional con intención de intercambio y retroalimentación, mientras que la expresión puede ser unilateral",
+            "No existe diferencia alguna entre ambos conceptos en lingüística",
+            "La comunicación es exclusiva de textos escritos y la expresión de gestos"
+          ],
+          correctIndex: 1,
+          explanation: "La comunicación exige interacción y reciprocidad entre emisor y receptor, mientras que la expresión exterioriza ideas o emociones sin requerir respuesta."
+        },
+        {
+          question: "¿Qué función del lenguaje predomina en un artículo científico cuyo objetivo es transmitir datos objetivos y verificables sobre la realidad?",
+          options: ["Función emotiva o expresiva", "Función referencial o informativa", "Función fática", "Función poética"],
+          correctIndex: 1,
+          explanation: "La función referencial se centra en el contexto o referente, transmitiendo información objetiva sin valoraciones subjetivas."
+        },
+        {
+          question: "En la comunicación no verbal, ¿qué disciplina estudia el uso y percepción de las distancias interpersonales y el espacio físico?",
+          options: ["Paralingüística", "Oculesia", "Proxémica", "Comunicación artefactual"],
+          correctIndex: 2,
+          explanation: "La proxémica (estudiada por Edward T. Hall) analiza las distancias íntima, personal, social y pública en la comunicación."
+        },
+        {
+          question: "¿Cuál de estas herramientas es un gestor bibliográfico de código abierto diseñado para capturar metadatos desde el navegador e insertar citas APA 7 en Word o Google Docs?",
+          options: ["Latindex", "Zotero", "Prezi", "Canva"],
+          correctIndex: 1,
+          explanation: "Zotero (junto con Mendeley) es un gestor de referencias bibliográficas que automatiza la organización de PDFs y la citación normativa."
+        },
+        {
+          question: "¿Qué base de datos bibliográfica de Elsevier clasifica las revistas científicas por cuartiles (Q1 a Q4) y calcula métricas como CiteScore e índice h?",
+          options: ["Scopus", "Google Slides", "Latindex Directorio", "Microsoft Copilot"],
+          correctIndex: 0,
+          explanation: "Scopus es la mayor base de datos referencial de resúmenes y citas peer-reviewed de Elsevier, referente en análisis bibliométrico y cuartiles."
+        },
+        {
+          question: "¿Cuál es una buena práctica esencial al utilizar herramientas de IA generativa como Microsoft Copilot o Google Gemini en trabajos universitarios?",
+          options: [
+            "Copiar y pegar las respuestas sin leerlas ni citar fuentes",
+            "Usar prompts estructurados, verificar toda información en bases científicas y mantener la autoría crítica",
+            "Inventar referencias bibliográficas para completar el ensayo",
+            "Reemplazar todas las diapositivas con párrafos generados automáticamente"
+          ],
+          correctIndex: 1,
+          explanation: "La IA generativa potencia la productividad, pero requiere ingeniería de prompts, verificación contra alucinaciones y ética académica."
+        }
+      ];
+
+      // ==================== COMPONENTES DE LA APLICACIÓN ====================
+
+      function Header({ activeUnit, setActiveUnit, searchQuery, setSearchQuery, onOpenQuiz, completedCount, totalTopics }) {
+        const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+        const progressPercent = Math.round((completedCount / totalTopics) * 100);
+
+        return (
+          <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="h-20 flex items-center justify-between gap-4">
+                {/* Logo y Título */}
+                <div 
+                  className="flex items-center space-x-3 cursor-pointer shrink-0" 
+                  onClick={() => { setActiveUnit(null); setSearchQuery(""); setMobileMenuOpen(false); }}
+                >
+                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-xl shadow-md shadow-blue-500/20">
+                    📊
+                  </div>
+                  <div>
+                    <span className="hidden sm:block text-[11px] font-bold tracking-wider uppercase text-blue-600">
+                      Tecnologías de la Información y Comunicación - TIC
+                    </span>
+                    <h1 className="text-base sm:text-lg font-bold font-display text-slate-900 leading-tight">
+                      Plan Analítico
+                    </h1>
+                  </div>
+                </div>
+
+                {/* Buscador Global en Escritorio */}
+                <div className="hidden lg:flex flex-1 max-w-md mx-4">
+                  <div className="relative w-full">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </span>
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Buscar tema, concepto, APA, Scopus, IA..."
+                      className="w-full pl-10 pr-8 py-2 bg-slate-100 border border-transparent focus:bg-white focus:border-blue-500 rounded-xl text-sm text-slate-800 placeholder-slate-400 outline-none transition-all"
+                    />
+                    {searchQuery && (
+                      <button 
+                        onClick={() => setSearchQuery("")}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Navegación Escritorio */}
+                <nav className="hidden md:flex items-center space-x-1.5 shrink-0">
+                  <button 
+                    onClick={() => { setActiveUnit(null); setSearchQuery(""); }}
+                    className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-all ${activeUnit === null && !searchQuery ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-600 hover:bg-slate-100'}`}
+                  >
+                    Inicio
+                  </button>
+                  {units.map((u) => (
+                    <button
+                      key={u.id}
+                      onClick={() => { setActiveUnit(u.id); setSearchQuery(""); }}
+                      className={`px-3 py-2 rounded-xl text-sm font-medium transition-all ${activeUnit === u.id ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'}`}
+                    >
+                      U.{u.number}
+                    </button>
+                  ))}
+                  <button
+                    onClick={onOpenQuiz}
+                    className="ml-2 px-3.5 py-2 rounded-xl text-sm font-semibold bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 transition-colors flex items-center gap-1.5"
+                  >
+                    <span>🎯</span> Autoevaluación
+                  </button>
+                </nav>
+
+                {/* Botón Menú Móvil */}
+                <div className="flex items-center gap-2 md:hidden">
+                  <button
+                    onClick={onOpenQuiz}
+                    className="p-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 text-sm font-semibold"
+                    title="Autoevaluación"
+                  >
+                    🎯
+                  </button>
+                  <button
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    className="p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200"
+                    aria-label="Abrir menú"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      {mobileMenuOpen ? (
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      ) : (
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                      )}
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Buscador en Móvil / Tablet */}
+              <div className="lg:hidden pb-3">
+                <div className="relative w-full">
+                  <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </span>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Filtrar contenidos del plan analítico..."
+                    className="w-full pl-10 pr-8 py-2 bg-slate-100 border border-transparent focus:bg-white focus:border-blue-500 rounded-xl text-sm text-slate-800 outline-none"
+                  />
+                  {searchQuery && (
+                    <button 
+                      onClick={() => setSearchQuery("")}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Menú Desplegable Móvil */}
+              {mobileMenuOpen && (
+                <div className="md:hidden py-3 border-t border-slate-100 space-y-1.5 animate-fade-in">
+                  <button
+                    onClick={() => { setActiveUnit(null); setSearchQuery(""); setMobileMenuOpen(false); }}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold ${activeUnit === null ? 'bg-blue-50 text-blue-600' : 'text-slate-700'}`}
+                  >
+                    Inicio / Resumen General
+                  </button>
+                  {units.map((u) => (
+                    <button
+                      key={u.id}
+                      onClick={() => { setActiveUnit(u.id); setSearchQuery(""); setMobileMenuOpen(false); }}
+                      className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between ${activeUnit === u.id ? 'bg-blue-600 text-white' : 'text-slate-700 hover:bg-slate-50'}`}
+                    >
+                      <span>{u.icon} Unidad {u.number}: {u.title}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Barra sutil de progreso global */}
+            <div className="w-full bg-slate-100 h-1">
+              <div 
+                className="bg-gradient-to-r from-blue-600 via-indigo-500 to-emerald-500 h-1 transition-all duration-500"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+          </header>
+        );
+      }
+
+      function UnitCard({ unit, onSelect, completedTopics }) {
+        const allTopics = unit.themes.flatMap(t => t.topics);
+        const unitCompleted = allTopics.filter(t => completedTopics.includes(t.id)).length;
+        const unitPercent = Math.round((unitCompleted / allTopics.length) * 100);
+
+        return (
+          <div 
+            onClick={onSelect}
+            className="topic-card bg-white rounded-3xl p-7 sm:p-8 border border-slate-200 cursor-pointer flex flex-col justify-between relative overflow-hidden group"
+          >
+            <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-br from-slate-100 to-transparent rounded-bl-full transition-transform duration-500 group-hover:scale-110 pointer-events-none" />
+            
+            <div>
+              <div className="flex items-center justify-between mb-5">
+                <span className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-3xl shadow-inner">
+                  {unit.icon}
+                </span>
+                <span className={`px-3.5 py-1.5 rounded-full text-xs font-bold border ${unit.badgeClass}`}>
+                  Unidad Curricular {unit.number}
+                </span>
+              </div>
+              
+              <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
+                {unit.title}
+              </h3>
+              
+              <p className="text-slate-600 text-sm leading-relaxed mb-5">
+                {unit.description}
+              </p>
+
+              {/* Lista previa de temáticas */}
+              <div className="space-y-1.5 mb-6">
+                {unit.themes.map((th) => (
+                  <div key={th.id} className="text-xs text-slate-500 bg-slate-50 px-3 py-2 rounded-xl border border-slate-100 truncate">
+                    📌 {th.title}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-slate-100 space-y-3">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-semibold text-slate-500">
+                  Progreso: {unitCompleted}/{allTopics.length} temas
+                </span>
+                <span className={`font-bold ${unit.accentText}`}>{unitPercent}%</span>
+              </div>
+              <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                <div className={`${unit.progressFill} h-full rounded-full transition-all duration-500`} style={{ width: `${unitPercent}%` }} />
+              </div>
+
+              <div className="pt-2 flex items-center justify-between">
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                  {unit.themes.length} Unidades Temáticas
+                </span>
+                <span className={`inline-flex items-center text-sm font-semibold ${unit.accentText} group-hover:translate-x-1 transition-transform`}>
+                  Explorar contenidos &rarr;
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      function TopicItem({ topic, unitBadge, isCompleted, onToggleComplete, onOpenDetail }) {
+        return (
+          <div className="topic-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm flex flex-col justify-between">
+            <div>
+              {/* Imagen con badge de estado */}
+              <div 
+                onClick={() => onOpenDetail(topic)}
+                className="relative h-48 overflow-hidden bg-slate-100 cursor-pointer"
+              >
+                <img 
+                  src={topic.imageUrl} 
+                  alt={topic.title} 
+                  className="w-full h-full object-cover image-hover"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = `https://placehold.co/800x450/e2e8f0/334155?text=${encodeURIComponent(topic.title)}`;
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent flex flex-col justify-between p-4">
+                  <div className="flex justify-between items-start gap-2">
+                    {unitBadge && (
+                      <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white/95 text-slate-800 shadow-sm">
+                        {unitBadge}
+                      </span>
+                    )}
+                    {isCompleted && (
+                      <span className="ml-auto px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-500 text-white shadow-sm">
+                        ✓ Estudiado
+                      </span>
+                    )}
+                  </div>
+                  <h4 className="text-white font-bold font-display text-lg leading-snug drop-shadow-sm">
+                    {topic.title}
+                  </h4>
+                </div>
+              </div>
+
+              {/* Contenido resumido y palabras clave */}
+              <div className="p-5">
+                {topic.keywords && (
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {topic.keywords.slice(0, 3).map((kw, idx) => (
+                      <span key={idx} className="px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded-md text-[11px] font-medium">
+                        #{kw}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <p className="text-slate-600 text-sm leading-relaxed line-clamp-4">
+                  {topic.definition}
+                </p>
+              </div>
+            </div>
+
+            {/* Acciones de la tarjeta */}
+            <div className="px-5 pb-5 pt-3 border-t border-slate-100 space-y-2.5">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => onOpenDetail(topic)}
+                  className="flex-1 bg-slate-900 hover:bg-blue-600 text-white px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5"
+                >
+                  <span>📖</span> Estudio Profundo
+                </button>
+                <button
+                  onClick={() => onToggleComplete(topic.id)}
+                  className={`px-3 py-2.5 rounded-xl text-xs font-semibold border transition-colors ${
+                    isCompleted 
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100' 
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                  }`}
+                  title={isCompleted ? "Desmarcar tema" : "Marcar como estudiado"}
+                >
+                  {isCompleted ? "✓" : "○"}
+                </button>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <a 
+                  href={topic.youtubeUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="btn-youtube flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5"
+                >
+                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                  Video Tutorial
+                </a>
+
+                <a 
+                  href={topic.externalUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors flex items-center justify-center"
+                >
+                  Lectura ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // ==================== MODAL DE LECTURA PROFUNDA ====================
+      function TopicDetailModal({ topic, onClose, isCompleted, onToggleComplete }) {
+        if (!topic) return null;
+
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto" onClick={onClose}>
+            <div 
+              className="animate-modal bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl border border-slate-200 my-8"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Cabecera con imagen */}
+              <div className="relative h-56 sm:h-64 bg-slate-200">
+                <img 
+                  src={topic.imageUrl} 
+                  alt={topic.title}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = `https://placehold.co/800x450/e2e8f0/334155?text=${encodeURIComponent(topic.title)}`;
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent flex flex-col justify-between p-6">
+                  <div className="flex justify-end">
+                    <button 
+                      onClick={onClose}
+                      className="w-10 h-10 rounded-full bg-white/90 hover:bg-white text-slate-800 flex items-center justify-center font-bold shadow-md transition-transform hover:scale-105"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <div>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {topic.keywords && topic.keywords.map((kw, i) => (
+                        <span key={i} className="px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-medium">
+                          #{kw}
+                        </span>
+                      ))}
+                    </div>
+                    <h3 className="text-2xl sm:text-3xl font-extrabold font-display text-white">
+                      {topic.title}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+              {/* Cuerpo del modal */}
+              <div className="p-6 sm:p-8 space-y-6 max-h-[65vh] overflow-y-auto">
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2">
+                    Fundamentación Conceptual
+                  </h4>
+                  <p className="text-slate-700 text-base leading-relaxed">
+                    {topic.definition}
+                  </p>
+                </div>
+
+                {topic.keyPoints && (
+                  <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200/80">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 mb-3 flex items-center gap-2">
+                      <span>📌</span> Ejes Clave y Dimensiones de Estudio
+                    </h4>
+                    <ul className="space-y-2.5">
+                      {topic.keyPoints.map((point, idx) => (
+                        <li key={idx} className="flex items-start gap-2.5 text-sm text-slate-700">
+                          <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                            {idx + 1}
+                          </span>
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {topic.practicalTip && (
+                  <div className="bg-amber-50/80 rounded-2xl p-5 border border-amber-200 flex items-start gap-3.5">
+                    <span className="text-2xl">💡</span>
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-amber-800 mb-1">
+                        Tip Académico y Aplicación Práctica
+                      </h4>
+                      <p className="text-sm text-amber-900/90 leading-relaxed">
+                        {topic.practicalTip}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Pie del modal */}
+              <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+                <button
+                  onClick={() => onToggleComplete(topic.id)}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
+                    isCompleted 
+                      ? 'bg-emerald-600 text-white shadow-sm' 
+                      : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100'
+                  }`}
+                >
+                  <span>{isCompleted ? "✓ Tema Completado" : "○ Marcar como Estudiado"}</span>
+                </button>
+
+                <div className="flex items-center gap-2.5">
+                  <a 
+                    href={topic.youtubeUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="btn-youtube bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2"
+                  >
+                    ▶ Ver en YouTube
+                  </a>
+                  <a 
+                    href={topic.externalUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold"
+                  >
+                    Fuente Bibliográfica ↗
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // ==================== MODAL DE AUTOEVALUACIÓN INTERACTIVA ====================
+      function QuizModal({ isOpen, onClose }) {
+        const [currentIdx, setCurrentIdx] = useState(0);
+        const [selectedOption, setSelectedOption] = useState(null);
+        const [score, setScore] = useState(0);
+        const [finished, setFinished] = useState(false);
+
+        if (!isOpen) return null;
+
+        const currentQ = quizQuestions[currentIdx];
+
+        const handleSelect = (idx) => {
+          if (selectedOption !== null) return;
+          setSelectedOption(idx);
+          if (idx === currentQ.correctIndex) {
+            setScore(score + 1);
+          }
+        };
+
+        const handleNext = () => {
+          if (currentIdx + 1 < quizQuestions.length) {
+            setCurrentIdx(currentIdx + 1);
+            setSelectedOption(null);
+          } else {
+            setFinished(true);
+          }
+        };
+
+        const handleReset = () => {
+          setCurrentIdx(0);
+          setSelectedOption(null);
+          setScore(0);
+          setFinished(false);
+        };
+
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm" onClick={onClose}>
+            <div 
+              className="animate-modal bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-2xl">🎯</span>
+                  <div>
+                    <h3 className="text-lg font-bold font-display text-slate-900">Autoevaluación Rápida TIC</h3>
+                    <p className="text-xs text-slate-500">Comprueba tu dominio de las 4 unidades</p>
+                  </div>
+                </div>
+                <button onClick={onClose} className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold">
+                  ✕
+                </button>
+              </div>
+
+              {!finished ? (
+                <div className="space-y-5">
+                  <div className="flex justify-between text-xs font-semibold text-slate-500">
+                    <span>Pregunta {currentIdx + 1} de {quizQuestions.length}</span>
+                    <span>Aciertos: {score}</span>
+                  </div>
+
+                  <p className="text-base font-semibold text-slate-900 leading-snug">
+                    {currentQ.question}
+                  </p>
+
+                  <div className="space-y-2.5">
+                    {currentQ.options.map((opt, idx) => {
+                      let btnStyle = "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100";
+                      if (selectedOption !== null) {
+                        if (idx === currentQ.correctIndex) {
+                          btnStyle = "bg-emerald-50 border-emerald-500 text-emerald-900 font-semibold";
+                        } else if (idx === selectedOption) {
+                          btnStyle = "bg-rose-50 border-rose-500 text-rose-900";
+                        } else {
+                          btnStyle = "bg-slate-50 border-slate-200 text-slate-400";
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => handleSelect(idx)}
+                          className={`w-full text-left p-3.5 rounded-xl border text-sm transition-all ${btnStyle}`}
+                        >
+                          {opt}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {selectedOption !== null && (
+                    <div className="p-4 rounded-xl bg-blue-50 border border-blue-100 text-xs text-blue-900 leading-relaxed animate-fade-in">
+                      <strong>Retroalimentación:</strong> {currentQ.explanation}
+                    </div>
+                  )}
+
+                  <div className="pt-2 flex justify-end">
+                    <button
+                      disabled={selectedOption === null}
+                      onClick={handleNext}
+                      className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                        selectedOption !== null 
+                          ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm' 
+                          : 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                      }`}
+                    >
+                      {currentIdx + 1 < quizQuestions.length ? "Siguiente Pregunta →" : "Ver Resultados"}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-6 space-y-5 animate-fade-in">
+                  <div className="w-20 h-20 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-4xl mx-auto shadow-inner">
+                    {score >= 4 ? "🏆" : score >= 3 ? "👏" : "📚"}
+                  </div>
+                  <div>
+                    <h4 className="text-2xl font-extrabold font-display text-slate-900">
+                      Obtuviste {score} de {quizQuestions.length} puntos
+                    </h4>
+                    <p className="text-sm text-slate-600 mt-2">
+                      {score >= 4 
+                        ? "¡Excelente dominio de los contenidos del Plan Analítico TIC!" 
+                        : "Buen intento. Te recomendamos repasar las tarjetas de Estudio Profundo de cada unidad."}
+                    </p>
+                  </div>
+                  <div className="flex justify-center gap-3 pt-2">
+                    <button
+                      onClick={handleReset}
+                      className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white"
+                    >
+                      Reintentar Quiz
+                    </button>
+                    <button
+                      onClick={onClose}
+                      className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700"
+                    >
+                      Volver al Estudio
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      }
+
+      // ==================== COMPONENTE PRINCIPAL APP ====================
+      function App() {
+        const [activeUnit, setActiveUnit] = useState(null);
+        const [searchQuery, setSearchQuery] = useState("");
+        const [selectedTopic, setSelectedTopic] = useState(null);
+        const [quizOpen, setQuizOpen] = useState(false);
+        const [completedTopics, setCompletedTopics] = useState(() => {
+          try {
+            const saved = localStorage.getItem("tic_plan_completed_v1");
+            return saved ? JSON.parse(saved) : [];
+          } catch {
+            return [];
+          }
+        });
+
+        useEffect(() => {
+          try {
+            localStorage.setItem("tic_plan_completed_v1", JSON.stringify(completedTopics));
+          } catch {}
+        }, [completedTopics]);
+
+        useEffect(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, [activeUnit]);
+
+        const toggleCompleteTopic = (topicId) => {
+          setCompletedTopics((prev) =>
+            prev.includes(topicId) ? prev.filter((id) => id !== topicId) : [...prev, topicId]
+          );
+        };
+
+        const allTopicsFlat = useMemo(() => {
+          return units.flatMap((u) =>
+            u.themes.flatMap((th) =>
+              th.topics.map((tp) => ({
+                ...tp,
+                unitNumber: u.number,
+                unitTitle: u.title,
+                themeTitle: th.title
+              }))
+            )
+          );
+        }, []);
+
+        const filteredTopics = useMemo(() => {
+          const q = searchQuery.trim().toLowerCase();
+          if (!q) return [];
+          return allTopicsFlat.filter(
+            (t) =>
+              t.title.toLowerCase().includes(q) ||
+              t.definition.toLowerCase().includes(q) ||
+              (t.keywords && t.keywords.some((k) => k.toLowerCase().includes(q)))
+          );
+        }, [searchQuery, allTopicsFlat]);
+
+        const selectedUnitData = units.find((u) => u.id === activeUnit);
+
+        return (
+          <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+            <Header 
+              activeUnit={activeUnit} 
+              setActiveUnit={setActiveUnit}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              onOpenQuiz={() => setQuizOpen(true)}
+              completedCount={completedTopics.length}
+              totalTopics={allTopicsFlat.length}
+            />
+
+            <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+              {/* VISTA DE RESULTADOS DE BÚSQUEDA */}
+              {searchQuery.trim() !== "" ? (
+                <div className="animate-fade-in space-y-6">
+                  <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200">
+                    <div>
+                      <span className="text-xs font-bold uppercase tracking-wider text-blue-600">Búsqueda en Tiempo Real</span>
+                      <h2 className="text-xl sm:text-2xl font-bold font-display text-slate-900">
+                        Resultados para "{searchQuery}" ({filteredTopics.length})
+                      </h2>
+                    </div>
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      className="px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700"
+                    >
+                      Limpiar filtro
+                    </button>
+                  </div>
+
+                  {filteredTopics.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {filteredTopics.map((topic) => (
+                        <TopicItem
+                          key={topic.id}
+                          topic={topic}
+                          unitBadge={`Unidad ${topic.unitNumber}`}
+                          isCompleted={completedTopics.includes(topic.id)}
+                          onToggleComplete={toggleCompleteTopic}
+                          onOpenDetail={setSelectedTopic}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-16 bg-white rounded-3xl border border-slate-200">
+                      <span className="text-4xl">🔎</span>
+                      <h3 className="text-lg font-bold text-slate-800 mt-3">No se encontraron temas coincidentes</h3>
+                      <p className="text-sm text-slate-500 mt-1">Intenta buscar términos como "ensayo", "paralingüística", "Scopus", "APA" o "Gemini".</p>
+                    </div>
+                  )}
+                </div>
+              ) : activeUnit === null ? (
+                /* VISTA PRINCIPAL DEL PLAN ANALÍTICO */
+                <div className="animate-fade-in space-y-10">
+                  <div className="text-center max-w-3xl mx-auto pt-4 pb-2">
+                    <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-100 uppercase tracking-wider">
+                      Tecnologías de la Información y Comunicación - TIC
+                    </span>
+                    <h2 className="text-3xl sm:text-5xl font-extrabold font-display text-slate-900 mt-4 mb-5 tracking-tight">
+                      Plan Analítico de la Materia
+                    </h2>
+                    <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+                      Explora las 4 unidades curriculares, profundiza en cada contenido mínimo con ejemplos prácticos, controla tu progreso de estudio y valida tus conocimientos.
+                    </p>
+
+                    {/* Tarjeta resumen de progreso */}
+                    <div className="mt-8 inline-flex flex-wrap items-center justify-center gap-4 bg-white px-6 py-3.5 rounded-2xl border border-slate-200 shadow-sm">
+                      <div className="text-left">
+                        <span className="block text-[11px] font-bold uppercase text-slate-400">Tu Progreso Total</span>
+                        <span className="text-sm font-bold text-slate-800">
+                          {completedTopics.length} de {allTopicsFlat.length} temas completados ({Math.round((completedTopics.length / allTopicsFlat.length) * 100)}%)
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => setQuizOpen(true)}
+                        className="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                      >
+                        🎯 Practicar Quiz
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+                    {units.map((unit) => (
+                      <UnitCard 
+                        key={unit.id} 
+                        unit={unit} 
+                        completedTopics={completedTopics}
+                        onSelect={() => setActiveUnit(unit.id)} 
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                /* VISTA DETALLADA DE UNA UNIDAD */
+                <div className="animate-fade-in space-y-10">
+                  <div className="bg-white rounded-3xl p-7 sm:p-10 border border-slate-200 shadow-sm relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-slate-100/70 rounded-bl-full pointer-events-none" />
+                    
+                    <button 
+                      onClick={() => setActiveUnit(null)}
+                      className={`inline-flex items-center text-sm font-semibold ${selectedUnitData.accentText} hover:underline mb-6`}
+                    >
+                      &larr; Volver al plan analítico principal
+                    </button>
+
+                    <div className="flex flex-wrap items-center gap-3 mb-4">
+                      <span className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-2xl shadow-inner">
+                        {selectedUnitData.icon}
+                      </span>
+                      <span className={`px-3.5 py-1 rounded-full text-xs font-bold border ${selectedUnitData.badgeClass}`}>
+                        Unidad Curricular {selectedUnitData.number}
+                      </span>
+                    </div>
+
+                    <h2 className="text-2xl sm:text-4xl font-extrabold font-display text-slate-900 mb-3">
+                      {selectedUnitData.title}
+                    </h2>
+                    <p className="text-base sm:text-lg text-slate-600 max-w-3xl leading-relaxed">
+                      {selectedUnitData.description}
+                    </p>
+                  </div>
+
+                  <div className="space-y-14">
+                    {selectedUnitData.themes.map((theme) => (
+                      <section key={theme.id} className="space-y-6">
+                        <div className="border-b border-slate-200 pb-4">
+                          <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-900">
+                            {theme.title}
+                          </h3>
+                          {theme.subtitle && (
+                            <p className="text-sm text-slate-500 mt-1">{theme.subtitle}</p>
+                          )}
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {theme.topics.map((topic) => (
+                            <TopicItem 
+                              key={topic.id} 
+                              topic={topic}
+                              isCompleted={completedTopics.includes(topic.id)}
+                              onToggleComplete={toggleCompleteTopic}
+                              onOpenDetail={setSelectedTopic}
+                            />
+                          ))}
+                        </div>
+                      </section>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </main>
+
+            {/* Modales interactivos */}
+            <TopicDetailModal
+              topic={selectedTopic}
+              onClose={() => setSelectedTopic(null)}
+              isCompleted={selectedTopic ? completedTopics.includes(selectedTopic.id) : false}
+              onToggleComplete={toggleCompleteTopic}
+            />
+
+            <QuizModal
+              isOpen={quizOpen}
+              onClose={() => setQuizOpen(false)}
+            />
+
+            <footer className="bg-white border-t border-slate-200 mt-16 py-8">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+                <p>&copy; 2026 Tecnologías de la Información y Comunicación (TIC) — Plan Analítico Académico.</p>
+                <p className="text-xs text-slate-400">Desarrollado para el fortalecimiento de competencias comunicativas y digitales.</p>
+              </div>
+            </footer>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
